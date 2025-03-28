@@ -36,41 +36,84 @@ body {
 }
 
 /* Header */
-header {
-  background-color: #000000; /* Header en noir */
-  color: var(--light-color);
-  padding: 20px 0;
+.main-header {
+  background-color: white;
+  color: var(--dark-color);
+  padding: 30px 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   position: relative;
 }
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+}
+
+.header-logos {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  padding: 12px 25px;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .logo {
-  width: 80px;
-  height: auto;
+  height: 65px;
+  width: auto;
+  object-fit: contain;
 }
 
-.title {
-  font-family: 'Bebas Neue', sans-serif;
+.logo-bbc {
+  margin-right: 15px;
+}
+
+.logo-gueuleton {
+  margin-left: 15px;
+  height: 50px;
+}
+
+.logo-separator {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  margin: 0 15px;
+}
+
+.title-group {
   text-align: center;
-  margin: 20px 0;
 }
 
-.title h1 {
-  font-size: 4rem;
-  color: var(--primary-color);
-  text-shadow: 2px 2px 0 var(--dark-color);
-  transform: skew(-5deg);
-  margin-bottom: 10px;
+.main-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4.2rem;
+  color: #000;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
-.title h2 {
-  font-size: 2rem;
-  color: var(--secondary-color);
+.subtitle {
+  font-size: 1.5rem;
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* Rainbow separator line */
+.rainbow-separator-line {
+  height: 5px;
+  background: linear-gradient(90deg,
+      var(--primary-color) 0%,
+      var(--secondary-color) 20%,
+      var(--accent-color) 40%,
+      var(--pois-color) 60%,
+      var(--yellow-color) 80%,
+      var(--primary-color) 100%);
 }
 
 .banner {
@@ -81,32 +124,38 @@ header {
 }
 
 /* Navigation */
-nav {
-  background-color: var(--primary-color);
-  padding: 10px 0;
+.main-nav {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #eaeaea;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-nav ul {
+.main-nav ul {
   display: flex;
   justify-content: center;
   list-style: none;
+  padding: 12px 0;
 }
 
-nav ul li {
+.main-nav ul li {
   margin: 0 15px;
 }
 
-nav ul li a {
-  color: #ffffff; /* Liens en blanc */
+.main-nav ul li a {
+  color: #333;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
 }
 
-nav ul li a:hover {
-  color: var(--dark-color);
+.main-nav ul li a:hover {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
 }
 
 /* Sections */
@@ -117,7 +166,7 @@ section {
 .section-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 2.5rem;
-  color: var(--light-color); /* Titres en blanc */
+  color: var(--light-color);
   margin-bottom: 20px;
   text-align: center;
   text-transform: uppercase;
@@ -129,7 +178,6 @@ section {
   display: block;
   width: 100%;
   height: 4px;
-  /* Bordure colorée en bas */
   background: linear-gradient(90deg,
     var(--primary-color) 0%,
     var(--secondary-color) 20%,
@@ -140,103 +188,265 @@ section {
   margin: 10px auto;
 }
 
-/* Carte et profil */
+.section-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 25px;
+}
+
+/* Parcours */
 .map-container {
   width: 100%;
   height: 500px;
   margin: 20px 0;
-  border: 5px solid var(--dark-color);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-#map {
-  border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  margin: 0 auto;
-}
-
-.profile-container {
+.garmin-iframe {
   width: 100%;
-  margin: 20px 0;
-  text-align: center;
-}
-
-.profile-container img {
-  max-width: 100%;
-  border: 5px solid var(--dark-color);
+  height: 500px;
   border-radius: 10px;
+  border: none;
 }
 
-/* Cartes des défis */
-.challenges {
+.course-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.course-info-card {
+  flex: 1;
+  min-width: 250px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.info-title {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+}
+
+.hot-spot-title {
+  color: var(--pois-color);
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+}
+
+.gpx-download-section {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.gpx-download-link {
+  display: inline-block;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.gpx-download-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 119, 200, 0.3);
+  background-color: #005A9E;
+}
+
+.gpx-help-text {
+  margin-top: 15px;
+  color: #cccccc;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Défis */
+.challenges-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 30px 0;
+  gap: 20px;
 }
 
 .challenge-card {
-  width: 30%;
+  flex: 1;
+  min-width: 300px;
   background-color: var(--light-color);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   transition: all 0.3s ease;
-  padding-bottom: 15px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 300px;
+  align-items: flex-start;
+  padding: 20px;
 }
 
 .challenge-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
 .challenge-card.pois {
-  border-top: 5px solid var(--pois-color);
+  border-left: 5px solid var(--pois-color);
 }
 
 .challenge-card.red {
-  border-top: 5px solid var(--red-color);
+  border-left: 5px solid var(--red-color);
 }
 
 .challenge-card.yellow {
-  border-top: 5px solid var(--yellow-color);
+  border-left: 5px solid var(--yellow-color);
 }
 
-.challenge-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+.maillot {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.maillot-pois {
+  background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="red"/></svg>') repeat;
+  border: 3px solid var(--pois-color);
+}
+
+.maillot-rouge {
+  background-color: var(--red-color);
+  border: 3px solid #b30000;
+}
+
+.maillot-jaune {
+  background-color: var(--yellow-color);
+  border: 3px solid #d4a700;
 }
 
 .challenge-card-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex: 1;
 }
 
-.challenge-card h3 {
+.challenge-card-content h3 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.8rem;
-  margin-bottom: 15px;
-  text-align: center;
+  margin-bottom: 10px;
   color: var(--dark-color);
-  border-bottom: 2px solid;
-  padding-bottom: 5px;
 }
 
-.challenge-card p {
+.challenge-card-content p {
   font-size: 1rem;
   color: #333;
   line-height: 1.5;
-  text-align: justify;
-  padding: 0 5px;
+}
+
+/* Pronostics */
+.prono-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.prono-card {
+  flex: 1;
+  min-width: 300px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.prono-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.prono-title {
+  margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: #000;
+}
+
+.prono-question {
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.prono-item {
+  margin-bottom: 15px;
+}
+
+.prono-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.prono-name {
+  font-weight: bold;
+  color: #000;
+}
+
+.pois-rating, .red-rating {
+  color: var(--pois-color);
+}
+
+.yellow-rating {
+  color: var(--yellow-color);
+}
+
+.prono-bar-container {
+  height: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.prono-bar {
+  height: 100%;
+}
+
+.pois-bar, .red-bar {
+  background-color: var(--pois-color);
+}
+
+.yellow-bar {
+  background-color: var(--yellow-color);
+}
+
+.prono-comment {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #666;
+}
+
+.prono-footer {
+  text-align: center;
+  margin-top: 25px;
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 /* Règles */
@@ -283,11 +493,12 @@ section {
 }
 
 /* Avatars */
-.avatars {
+.avatars-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin: 30px 0;
+  gap: 20px;
 }
 
 .avatar-card {
@@ -368,51 +579,204 @@ section {
     background-color: #8a8a8a;
 }
 
+/* Gueuleton */
+.gueuleton-intro-box {
+  background-color: white;
+  color: black;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 30px 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gueuleton-intro-title {
+  color: #000;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.gueuleton-text-content {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid var(--yellow-color);
+  text-align: left;
+}
+
+.gueuleton-text-content p {
+  color: #000;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.gueuleton-quote {
+  color: #000;
+  font-size: 1.4rem;
+  margin-top: 20px;
+  text-align: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-style: italic;
+}
+
+.gueuleton-menu-info {
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
 /* Footer */
-footer {
-  background-color: #000000; /* Footer en noir */
+.main-footer {
+  background-color: #000000;
   color: var(--light-color);
   padding: 30px 0;
   text-align: center;
 }
 
-footer p {
+.main-footer p {
   margin-bottom: 10px;
 }
 
-.social-links {
-  display: flex;
-  justify-content: center;
+.footer-punchline {
+  font-style: italic;
+  color: var(--accent-color);
+  margin: 15px 0;
+}
+
+.credits {
+  font-size: 0.9rem;
   margin-top: 20px;
 }
 
-.social-links a {
+.credits a {
   color: var(--light-color);
-  margin: 0 10px;
-  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.credits a:hover {
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+.credits i {
+  color: var(--pois-color);
+  margin-right: 5px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .challenge-card {
-    width: 100%;
+  .container {
+    padding: 0 15px; /* Réduire le padding latéral */
+  }
+
+  /* Header */
+  .title h1 {
+    font-size: 2.5rem; /* Réduire taille titre principal */
   }
   
+  .title h2 {
+    font-size: 1.3rem; /* Réduire taille sous-titre */
+  }
+
+  /* Navigation */
   nav ul {
     flex-direction: column;
     align-items: center;
   }
   
   nav ul li {
-    margin: 10px 0;
+    margin: 8px 0; /* Réduire marge verticale */
   }
-  
-  .title h1 {
-    font-size: 3rem;
+
+  nav ul li a {
+    font-size: 1rem; /* Réduire taille police nav */
   }
-  
-  .title h2 {
+
+  /* Sections */
+  section {
+    padding: 30px 0; /* Réduire padding vertical sections */
+  }
+
+  .section-title {
+    font-size: 2rem; /* Réduire taille titres de section */
+  }
+
+  /* Carte et profil */
+  .map-container {
+    height: 350px; /* Réduire hauteur carte */
+  }
+
+  /* Défis */
+  .challenges {
+    flex-direction: column; /* Afficher les cartes en colonne */
+    align-items: center;
+  }
+
+  .challenge-card {
+    width: 95%; /* Utiliser presque toute la largeur */
+    max-width: 400px; /* Limiter la largeur max */
+    margin-bottom: 20px;
+    min-height: auto; /* Retirer hauteur min */
+  }
+
+  /* Avatars */
+  .avatars {
+      justify-content: center; /* Centrer les avatars */
+      gap: 15px; /* Ajouter un peu d'espace */
+  }
+  .avatar-card {
+      width: calc(50% - 10px); /* Deux avatars par ligne */
+      max-width: 180px; /* Limiter la largeur */
+      min-height: auto;
+  }
+   .avatar-card img {
+      height: 150px; /* Réduire hauteur image avatar */
+   }
+   .avatar-card h3 {
+      font-size: 1.2rem;
+   }
+   .avatar-card p {
+      font-size: 0.85rem;
+   }
+
+  /* Règles */
+  .rules {
+    padding: 20px; /* Réduire padding */
+  }
+  .rules h3 {
     font-size: 1.5rem;
+  }
+  .rules ul li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+  }
+  .rules ul li::before {
+    top: 2px; /* Ajuster position emoji */
+  }
+
+  /* Footer */
+  footer {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .title h1 {
+    font-size: 2rem;
+  }
+  .title h2 {
+    font-size: 1.1rem;
+  }
+  .section-title {
+    font-size: 1.8rem;
+  }
+  .avatar-card {
+      width: calc(80% - 10px); /* Un avatar par ligne sur très petits écrans */
+      max-width: 250px;
   }
 }
 

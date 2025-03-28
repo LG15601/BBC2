@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const avatarsContainer = document.querySelector('#avatars .avatars');
+    const avatarsContainer = document.querySelector('#avatars .avatars-container');
     avatarsContainer.innerHTML = '';
 
     const participants = [
@@ -37,12 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
     participants.forEach(participant => {
         const avatarCard = document.createElement('div');
         avatarCard.className = 'avatar-card';
-        avatarCard.style.backgroundColor = "#ffffff"; // Set background color to white
         const profileClass = participant.profil.toLowerCase().replace(' ', '-');
 
         avatarCard.innerHTML = `
             <h3>${participant.name}</h3>
-            <p style="color: #333333; font-weight: bold;">${participant.punchline}</p>
+            <p>${participant.punchline}</p>
             <span class="avatar-type ${profileClass}">${participant.profil}</span>
         `;
 

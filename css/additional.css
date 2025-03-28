@@ -62,45 +62,46 @@ nav ul li a:hover::after {
     width: 100%;
 }
 
-/* Responsive pour le header */
+/* Responsive pour le header et la navigation */
 @media (max-width: 768px) {
     header .title h1 {
-        font-size: 3rem !important;
+        font-size: 2.5rem !important; /* Réduire encore la taille */
     }
     
     nav ul {
-        flex-wrap: wrap;
+        flex-wrap: wrap; /* Permettre le retour à la ligne */
+        padding: 5px 0; /* Réduire padding vertical */
     }
     
     nav ul li {
-        margin: 5px 10px !important;
+        margin: 5px 8px !important; /* Réduire marges */
+    }
+    nav ul li a {
+        font-size: 0.9rem !important; /* Réduire taille police */
     }
 }
 
 /* Styles pour les maillots */
 .maillot {
-    width: 100px;
-    height: 100px;
-    background-size: cover;
-    margin: 20px auto;
-    border-radius: 50%;
-    border: 3px solid var(--dark-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1 / 1; /* Assure que l'élément est parfaitement carré */
+    width: 80px; /* Réduire taille maillots */
+    height: 80px;
+    margin: 15px auto;
+    border-width: 2px;
 }
 
-.maillot-pois {
-    background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="red"/></svg>') repeat;
-}
-
-.maillot-rouge {
-    background-color: #e40521;
-}
-
-.maillot-jaune {
-    background-color: #ffce00;
+/* Responsive pour les maillots dans les cartes défis */
+@media (max-width: 768px) {
+    .challenge-card .maillot {
+        width: 60px;
+        height: 60px;
+        margin: 10px auto;
+    }
+    .challenge-card h3 {
+        font-size: 1.5rem;
+    }
+    .challenge-card p {
+        font-size: 0.9rem;
+    }
 }
 
 /* Animation pour la visualisation 3D */
@@ -117,8 +118,8 @@ nav ul li a:hover::after {
 }
 
 .avatar-card:hover {
-    transform: translateY(-10px) rotate(2deg);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px); /* Réduire l'effet hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Style pour le teasing du Gueuleton */
@@ -126,6 +127,7 @@ nav ul li a:hover::after {
     background: var(--accent-color) url('images/food_bg.jpg') no-repeat center center;
     background-size: cover;
     position: relative;
+    padding: 20px; /* Ajouter padding pour mobile */
 }
 
 .teasing::before {
@@ -144,10 +146,22 @@ nav ul li a:hover::after {
     z-index: 1;
 }
 
+@media (max-width: 768px) {
+    .teasing h3 {
+        font-size: 1.8rem;
+    }
+    .teasing p {
+        font-size: 1rem;
+    }
+}
+
 /* Animation pour les citations */
 .fun-quote {
     position: relative;
     animation: float 5s ease-in-out infinite;
+    font-size: 1rem; /* Réduire taille citation */
+    padding: 8px;
+    margin: 15px 0;
 }
 
 @keyframes float {
@@ -155,7 +169,7 @@ nav ul li a:hover::after {
         transform: translateY(0px);
     }
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-5px); /* Réduire amplitude animation */
     }
     100% {
         transform: translateY(0px);
@@ -175,22 +189,48 @@ footer::before {
     left: 0;
     width: 100%;
     height: 5px;
-    background: linear-gradient(90deg, 
-        var(--primary-color) 0%, 
-        var(--secondary-color) 20%, 
-        var(--accent-color) 40%, 
-        var(--pois-color) 60%, 
-        var(--yellow-color) 80%, 
+    background: linear-gradient(90deg,
+        var(--primary-color) 0%,
+        var(--secondary-color) 20%,
+        var(--accent-color) 40%,
+        var(--pois-color) 60%,
+        var(--yellow-color) 80%,
         var(--primary-color) 100%);
 }
 
-/* Responsive pour les avatars */
+/* Responsive pour les avatars (déjà présent dans style.css, mais on peut affiner ici si besoin) */
+/* @media (max-width: 768px) { ... } */
+
+/* Responsive pour les pronostics (styles inline dans HTML, idéalement à déplacer) */
 @media (max-width: 768px) {
-    .avatars {
-        justify-content: center;
+    #pronostics > div[style*="flex-wrap: wrap"] {
+        flex-direction: column; /* Afficher en colonne */
+        align-items: center;
     }
-    
-    .avatar-card {
-        width: 150px;
+    #pronostics > div[style*="flex-wrap: wrap"] > div {
+        width: 95%; /* Utiliser presque toute la largeur */
+        max-width: 400px; /* Limiter largeur max */
+        min-width: unset; /* Retirer largeur min */
+        margin-bottom: 20px;
     }
+     #pronostics h3 {
+        font-size: 1.5rem;
+     }
+     #pronostics p {
+        font-size: 1rem;
+     }
+}
+
+/* Responsive pour infos/point chaud parcours (styles inline dans HTML) */
+@media (max-width: 768px) {
+    #parcours > div[style*="flex-wrap: wrap"] {
+        flex-direction: column; /* Afficher en colonne */
+        align-items: center;
+    }
+     #parcours > div[style*="flex-wrap: wrap"] > div {
+        width: 95%; /* Utiliser presque toute la largeur */
+        max-width: 400px; /* Limiter largeur max */
+        min-width: unset; /* Retirer largeur min */
+        margin-bottom: 15px;
+     }
 }

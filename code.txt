@@ -1,0 +1,89 @@
+PROMPT POUR L'IA (ou étapes manuelles) :
+
+Objectif : Rendre les pages index.html et home.html responsives, esthétiques et animées en utilisant des fichiers CSS externes et la librairie AOS.
+
+Instructions :
+
+1.  **Configuration des Fichiers CSS :**
+    *   Assure-toi que les fichiers suivants existent dans le dossier `css/` : `style.css`, `splash.css`, `mobile.css`, `animations.css`, `additional.css`, `gallery.css`. Crée ceux qui manquent.
+    *   Assure-toi que `index.html` linke `splash.css` et `mobile.css` (et AOS CSS).
+    *   Assure-toi que `home.html` linke `style.css`, `additional.css`, `gallery.css`, `animations.css`, `mobile.css` (et AOS CSS).
+
+2.  **Styling `index.html` (via `css/splash.css`) :**
+    *   Ouvre `css/splash.css`.
+    *   Ajoute les styles de base pour `body` (fond `#011627`, couleur `#fdfffc`, `display: flex`, etc.).
+    *   Style `.splash-container` (centrage, `max-width: 800px`, `padding`).
+    *   Style `.logo-container` (flex, alignement, `background-color: rgba(255, 255, 255, 0.1)`, `border-radius`, `padding`).
+    *   Style `.logo` (`height: 100px`, `object-fit: contain`). Style `.logo-bbc` et `.logo-gueuleton` si des tailles différentes sont nécessaires.
+    *   Style `.separator` (`font-size`, `font-weight`, `color`, `margin`).
+    *   Style `.title` (Police Bebas Neue, `font-size: 5rem`, `margin`, `letter-spacing`, `color`, `text-shadow`).
+    *   Style `.subtitle` (`font-size: 1.5rem`, `margin-bottom`, `color: #FFCE00`).
+    *   Style `.punchline` (Police Bebas Neue, `font-size: 2.5rem`, `margin`, `color`, `text-shadow`, `max-width: 80%`).
+    *   Style `.enter-btn` (padding, `background-color: #FFCE00`, `color: #011627`, `text-decoration: none`, `font-weight`, `font-size: 1.2rem`, `border-radius`, `box-shadow`).
+    *   Style `.rainbow-line` (hauteur, `background: linear-gradient(...)`, `position: absolute`, `bottom: 0`, `left: 0`, `width: 100%`).
+
+3.  **Styling `home.html` (via `css/style.css`, `additional.css`, `gallery.css`) :**
+    *   Ouvre `css/style.css`.
+    *   **Variables CSS :** Définis des variables pour les couleurs principales (primaire, secondaire, accent, jaune, pois, etc.) dans `:root { ... }`.
+    *   **Styles Globaux :** Style `body` (fontes, couleur de fond de base si différente du blanc), `.container` (largeur max, centrage).
+    *   **Header (`.main-header`) :** Applique `background-color: white`, `padding: 20px 0`, `box-shadow`. Style `.header-content` (flex, column, center). Style `.header-logos` (flex, center, margin, background, padding, radius, shadow, width). Style `.logo` (bbc/gueuleton tailles spécifiques), `.logo-separator`. Style `.title-group` (text-align). Style `.main-title` (Bebas Neue, taille, couleur, etc.) et `.subtitle`.
+    *   **Rainbow Line (`.rainbow-separator-line`) :** Style la barre de séparation colorée.
+    *   **Navigation (`.main-nav`) :** Style le fond, bordure, ombre. Style `ul` (flex, list-style, padding). Style `li a` (couleur, déco, poids, majuscules, taille, padding, `border-bottom: 2px solid transparent`). Ajoute `:hover` pour le lien (`color: var(--primary-color); border-bottom-color: var(--primary-color);`). Gère l'`overflow-x: auto` et `white-space: nowrap` pour mobile (peut-être dans `mobile.css`).
+    *   **Sections (`section`) :** Ajoute du `padding` vertical. Style `.section-title` (centré, Bebas Neue, taille, marge). Style `.section-subtitle` (centré, taille, couleur, marge).
+    *   **Avatars (`#avatars`) :** Style `.avatars-container` (probablement flex ou grid pour l'affichage via JS).
+    *   **Parcours (`#parcours`) :** Style `.map-container` (marge, ombre, radius). Style `.garmin-iframe` (border-radius). Style `.course-details` (display: flex ou grid, gap). Style `.course-info-card` (background, padding, radius, marge, `max-width`). Style `.card-title` (couleur, marge). Ajoute des couleurs spécifiques pour `.info-title` (bleu) et `.hot-spot-title` (rouge). Style les étoiles (`.star-empty` couleur grise). Style `.gpx-download-section` (centré, marge). Style `.gpx-download-link` (apparence de bouton, couleur, padding, radius, ombre). Style `.gpx-help-text`.
+    *   **Défis (`#defis`) :** Style `.challenges-container` (flex/grid, gap). Style `.challenge-card` (background, padding, radius, shadow, display: flex, align-items: center). Style `.maillot` (width, height, background-image/color, `border-radius: 50%`, margin-right). Style les classes `.pois`, `.red`, `.yellow` pour les couleurs de fond/bordure spécifiques aux cartes. Style `h3` et `p` dans `.challenge-card-content`.
+    *   **Pronostics (`#pronostics`) :** Style `.prono-cards-container` (flex/grid, gap). Style `.prono-card` (background, padding, radius, shadow). Style `.prono-header` (flex, align-items, margin-bottom). Style `.prono-title`. Style `.prono-question`. Style `.prono-items`. Style `.prono-item` (margin-bottom). Style `.prono-label` (flex, space-between). Style `.prono-name` (bold). Style `.prono-rating` (couleur spécifique par maillot `.pois-rating`, `.yellow-rating`, `.red-rating`). Style `.prono-bar-container` (background gris clair, radius, height, overflow hidden). Style `.prono-bar` (height 100%, radius, couleur spécifique par maillot `.pois-bar`, `.yellow-bar`, `.red-bar`). Style `.prono-comment` (italic, small font, color gray). Style `.prono-footer` (italic, center, small, gray).
+    *   **Règles (`#regles`) :** Style `.rules-container` (flex/grid, gap). Style `.rules-column` (padding, peut-être une bordure). Style `h3 i` (margin-right). Style `ul` (list-style-position: inside ou padding-left). Style `li` (margin-bottom). Style `li i` (margin-right, couleur). Style `.safety-column` (peut-être une couleur de fond ou bordure distincte).
+    *   **Gueuleton (`#gueuleton`) :** Style `.gueuleton-intro-box` (background, color, padding, radius, shadow, text-align center). Style `.gueuleton-intro-title` (Bebas Neue, taille, margin). Style `.gueuleton-text-content` (background plus clair, padding, radius, `border-left`, text-align left). Style `.gueuleton-quote` (Bebas Neue, italic, taille, margin). Style `.gueuleton-menu-info` (bold, margin). Style `.gueuleton-gallery` (flex/grid, gap). Style `.gallery-item` (dans `gallery.css` probablement, `width`, `max-width`). Style `img` dans `.gallery-item` (`width: 100%`, `height: 200px`, `object-fit: cover`, `border-radius`).
+    *   **Footer (`.main-footer`) :** Style le fond, couleur texte, padding. Centre le texte. Style `.footer-punchline` (italic). Style `.credits i` (couleur rouge).
+
+4.  **Animations & Transitions (via `css/animations.css`) :**
+    *   Ouvre `css/animations.css`.
+    *   Ajoute des transitions CSS pour les effets de survol :
+        ```css
+        a, button, .challenge-card, .prono-card, .gallery-item, .gpx-download-link {
+          transition: all 0.3s ease-in-out;
+        }
+        /* Ajoute ici les styles :hover pour ces éléments */
+        .main-nav ul li a:hover { /* Exemple déjà donné */ }
+        .gpx-download-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 119, 200, 0.3); /* Ombre colorée */
+            background-color: #005A9E; /* Bleu plus foncé */
+        }
+        .challenge-card:hover, .prono-card:hover {
+             transform: scale(1.03);
+             box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        /* ... autres hovers ... */
+        ```
+    *   (Optionnel avancé) Tu peux définir des keyframes pour des animations plus complexes si besoin.
+
+5.  **Responsivité (via `css/mobile.css`) :**
+    *   Ouvre `css/mobile.css`.
+    *   Ajoute une media query principale : `@media (max-width: 768px) { ... }`.
+    *   **À l'intérieur de la media query :**
+        *   **Typographie :** Réduis les `font-size` pour `.main-title`, `.subtitle`, `.section-title`, `p`, `li`, `.card-title`, etc.
+        *   **Espacement :** Réduis les `padding` et `margin` des `.container`, `section`, `header`, `footer`, cartes.
+        *   **Mise en page :**
+            *   Assure-toi que `.header-content`, `.course-details`, `.rules-container`, `.prono-cards-container` passent en `flex-direction: column` si ce n'est pas déjà le cas.
+            *   Ajuste les largeurs des cartes (`.challenge-card`, `.prono-card`, `.course-info-card`) à `width: 95%` ou `100%`.
+            *   Ajuste la hauteur de l'iframe `.garmin-iframe` (`height: 250px` ou `300px`).
+            *   Ajuste la hauteur des images de la galerie (`.gallery-item img { height: 150px; }`).
+            *   Style la nav mobile (`.main-nav .container { padding: 0 5px; }`, `.main-nav ul { justify-content: flex-start; width: max-content; }`).
+        *   **Logos Header :** Réduis la taille des logos (`.main-header .logo { height: 40px; }`).
+    *   Ajoute une autre media query si besoin pour les très petits écrans : `@media (max-width: 480px) { ... }`.
+
+6.  **Vérification :**
+    *   Vérifie que tous les styles inline ont été supprimés des fichiers HTML.
+    *   Ouvre les pages dans le navigateur et utilise les outils de développement pour tester la responsivité à différentes tailles.
+    *   Vérifie que les animations AOS se déclenchent au défilement.
+    *   Vérifie que les effets de survol fonctionnent.
+    *   Assure-toi que les scripts JS (`script.js`, `avatars.js`) fonctionnent toujours.
+
+FIN DU PROMPT

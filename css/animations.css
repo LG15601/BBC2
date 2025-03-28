@@ -1,0 +1,139 @@
+/* Animations et transitions pour La Gueuleton Express */
+
+/* Transitions générales */
+a, button, .challenge-card, .prono-card, .gallery-item, .gpx-download-link,
+.avatar-card, .maillot, .logo-container, .enter-btn {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Effets de survol pour la navigation */
+.main-nav ul li a:hover {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* Effet de survol pour le bouton de téléchargement GPX */
+.gpx-download-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 119, 200, 0.3);
+    background-color: #005A9E; /* Bleu plus foncé */
+}
+
+/* Effets de survol pour les cartes */
+.challenge-card:hover, .prono-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Effet de survol pour les éléments de galerie */
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de survol pour les avatars */
+.avatar-card:hover {
+    transform: translateY(-5px) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation pour le titre du header */
+.main-title {
+    position: relative;
+}
+
+.main-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--primary-color) 50%,
+        transparent 100%);
+    transition: width 0.5s ease;
+}
+
+.main-header:hover .main-title::after {
+    width: 80%;
+}
+
+/* Animation pour les maillots */
+.maillot:hover {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Animation pour les citations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.fun-quote, .punchline {
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Animation pour le bouton d'entrée */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 206, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 206, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 206, 0, 0);
+    }
+}
+
+.enter-btn {
+    animation: pulse 2s infinite;
+}
+
+/* Animation pour la ligne arc-en-ciel */
+@keyframes rainbow-move {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.rainbow-line, .rainbow-separator-line {
+    background-size: 200% 200%;
+    animation: rainbow-move 5s linear infinite;
+}
+
+/* Responsive - Désactiver certaines animations sur mobile */
+@media (max-width: 768px) {
+    .fun-quote, .punchline {
+        animation: float 5s ease-in-out infinite;
+        animation-duration: 3s; /* Plus rapide sur mobile */
+    }
+    
+    .enter-btn {
+        animation: pulse 3s infinite; /* Plus lent sur mobile */
+    }
+    
+    .challenge-card:hover, .prono-card:hover, .gallery-item:hover {
+        transform: scale(1.02); /* Effet réduit sur mobile */
+    }
+    
+    .avatar-card:hover {
+        transform: translateY(-3px); /* Effet réduit sur mobile */
+    }
+}

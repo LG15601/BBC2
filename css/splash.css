@@ -62,7 +62,7 @@ main {
     color: #ffffff; /* Couleur blanche */
     margin-bottom: 10px;
     line-height: 1.1;
-    text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 5px #6caeff; /* Effet néon très subtil */
+    /* text-shadow supprimé pour enlever l'éblouissement */
 }
 
 .subtitle {

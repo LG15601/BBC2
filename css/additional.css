@@ -1,0 +1,196 @@
+/* Styles pour le header et la navigation */
+nav ul li a:hover {
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+}
+
+/* Animation pour le titre */
+header .title h1 {
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+header .title h1::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #000 50%,
+        transparent 100%);
+    transition: width 0.3s ease;
+}
+
+header:hover .title h1::after {
+    width: 80%;
+}
+
+/* Style pour le conteneur des logos */
+header div[style*="border-radius: 50px"] {
+    transition: all 0.3s ease;
+}
+
+header div[style*="border-radius: 50px"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Effet de transition pour les liens de navigation */
+nav ul li a {
+    position: relative;
+    transition: all 0.3s ease !important;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Responsive pour le header */
+@media (max-width: 768px) {
+    header .title h1 {
+        font-size: 3rem !important;
+    }
+    
+    nav ul {
+        flex-wrap: wrap;
+    }
+    
+    nav ul li {
+        margin: 5px 10px !important;
+    }
+}
+
+/* Styles pour les maillots */
+.maillot {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    margin: 20px auto;
+    border-radius: 50%;
+    border: 3px solid var(--dark-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1; /* Assure que l'élément est parfaitement carré */
+}
+
+.maillot-pois {
+    background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><circle cx="10" cy="10" r="8" fill="red"/></svg>') repeat;
+}
+
+.maillot-rouge {
+    background-color: #e40521;
+}
+
+.maillot-jaune {
+    background-color: #ffce00;
+}
+
+/* Animation pour la visualisation 3D */
+.map-container h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--primary-color);
+}
+
+/* Styles pour les avatars */
+.avatar-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatar-card:hover {
+    transform: translateY(-10px) rotate(2deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le teasing du Gueuleton */
+.teasing {
+    background: var(--accent-color) url('images/food_bg.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.teasing::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 206, 0, 0.85); /* Jaune du logo avec opacité */
+    z-index: 0;
+}
+
+.teasing * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Animation pour les citations */
+.fun-quote {
+    position: relative;
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Style pour le footer */
+footer {
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, 
+        var(--primary-color) 0%, 
+        var(--secondary-color) 20%, 
+        var(--accent-color) 40%, 
+        var(--pois-color) 60%, 
+        var(--yellow-color) 80%, 
+        var(--primary-color) 100%);
+}
+
+/* Responsive pour les avatars */
+@media (max-width: 768px) {
+    .avatars {
+        justify-content: center;
+    }
+    
+    .avatar-card {
+        width: 150px;
+    }
+}

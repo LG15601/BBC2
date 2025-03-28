@@ -1,0 +1,60 @@
+/* Cibler les écrans plus petits (ex: tablettes et téléphones) */
+/* Vous pouvez ajuster le 768px selon vos besoins */
+@media (max-width: 768px) {
+
+    main {
+        padding: 10px; /* Moins d'espace sur mobile */
+    }
+
+    .splash-container {
+        width: 95%; /* Prend presque toute la largeur */
+        padding: 20px; /* Moins de padding interne */
+    }
+
+    .logo {
+        max-width: 80px; /* Logos un peu plus petits */
+    }
+
+    .title {
+        font-size: 2.5rem; /* Taille de titre réduite */
+    }
+
+    .subtitle {
+        font-size: 1.5rem; /* Taille sous-titre réduite */
+    }
+
+    .punchline {
+        font-size: 1rem; /* Taille punchline légèrement réduite */
+    }
+
+    .enter-btn {
+        padding: 10px 25px; /* Bouton légèrement plus petit */
+        font-size: 0.9rem;
+    }
+}
+
+/* Optionnel : ajustements pour écrans très petits (ex: petits téléphones) */
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+    .subtitle {
+        font-size: 1.3rem;
+    }
+    .punchline {
+        font-size: 0.9rem;
+    }
+
+    .logo-container {
+      gap: 10px; /* Moins d'espace entre les logos */
+      /* Si vraiment peu de place, vous pourriez envisager :
+      flex-direction: column;
+      gap: 5px;
+      .separator { display: none; }
+      */
+    }
+
+     .logo {
+        max-width: 60px; /* Encore plus petits logos */
+    }
+}

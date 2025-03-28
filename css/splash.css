@@ -1,0 +1,119 @@
+/* --- Reset et Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Important pour le calcul des tailles */
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif; /* Police par défaut */
+    line-height: 1.6;
+    background-color: #0a192f; /* Fond bleu foncé */
+    color: #ffffff; /* Texte blanc par défaut */
+}
+
+main {
+    min-height: calc(100% - 50px); /* Ajustez 50px si votre footer est différent */
+    display: flex; /* Permet de centrer verticalement si besoin */
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px; /* Plus d'espace vertical */
+}
+
+/* --- Conteneur principal --- */
+.splash-container {
+    display: flex;
+    flex-direction: column; /* Aligner les éléments verticalement */
+    align-items: center; /* Centrer les éléments horizontalement */
+    text-align: center; /* Centrer le texte */
+    max-width: 800px; /* Largeur max pour éviter que ça s'étire trop */
+    width: 90%; /* Prend 90% de la largeur dispo, mais pas plus que max-width */
+    margin: 20px auto; /* Centrage du conteneur lui-même (si pas centré par flex sur main) */
+    padding: 30px;
+    /* Suppression du fond blanc, radius et shadow pour intégrer au fond bleu */
+}
+
+/* --- Logos --- */
+.logo-container {
+    display: flex; /* Aligne les logos et le séparateur horizontalement */
+    align-items: center; /* Centre verticalement les éléments dans le conteneur */
+    justify-content: center; /* Centre horizontalement les éléments */
+    gap: 15px; /* Espace entre les logos et le séparateur */
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Permet aux logos de passer à la ligne si pas assez de place */
+}
+
+.logo {
+    max-width: 100px; /* Taille maximale pour les logos */
+    height: auto; /* Garde les proportions */
+    /* Si besoin d'une taille min : min-width: 60px; */
+}
+
+.separator {
+    font-size: 1.5em; /* Taille du 'x' */
+    color: #ccc; /* Couleur gris clair pour visibilité sur fond sombre */
+}
+
+/* --- Textes --- */
+.title {
+    font-family: 'Bebas Neue', sans-serif; /* Police spécifique titre */
+    font-size: 3.5rem; /* Taille de base (sera ajustée sur mobile) */
+    color: #ffffff; /* Couleur blanche */
+    margin-bottom: 10px;
+    line-height: 1.1;
+    text-shadow: 0 0 1px #fff, 0 0 3px #fff, 0 0 5px #6caeff; /* Effet néon très subtil */
+}
+
+.subtitle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: #FFD700; /* Couleur dorée */
+    margin-bottom: 20px;
+    text-shadow: 0 0 2px #FFD700; /* Lueur dorée réduite */
+}
+
+.punchline {
+    font-size: 1.1rem;
+    color: #ffffff; /* Couleur blanche */
+    max-width: 600px; /* Limite la largeur de la punchline pour lisibilité */
+    margin: 0 auto 30px auto; /* Centrage et espace en bas */
+    text-shadow: 0 0 3px #fff, 0 0 5px #FFD700; /* Lueur blanche/dorée réduite */
+}
+
+/* --- Bouton --- */
+.enter-btn {
+    display: inline-block; /* Ou block si vous préférez pleine largeur */
+    padding: 12px 30px;
+    background: linear-gradient(45deg, #4fc3f7, #007bff); /* Dégradé bleu */
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    border: 2px solid #ffffff; /* Bordure blanche */
+    border-radius: 25px; /* Plus arrondi */
+    transition: all 0.3s ease; /* Transition plus globale */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); /* Ombre portée bleue */
+    /* margin: 30px auto; // Centrage géré par le parent flex */
+}
+
+.enter-btn:hover {
+    background: linear-gradient(45deg, #007bff, #4fc3f7); /* Inversion du dégradé */
+    transform: scale(1.05); /* Léger agrandissement */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.6); /* Ombre plus prononcée */
+    border-color: #FFD700; /* Bordure dorée au survol */
+}
+
+/* --- Footer --- */
+footer {
+    height: 10px; /* Hauteur de la ligne arc-en-ciel */
+    width: 100%;
+    /* Sera stylé dans animations.css ou ici directement */
+}
+
+.rainbow-line {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    /* Vous pouvez ajouter une animation ici si besoin */
+}

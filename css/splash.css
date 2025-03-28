@@ -62,6 +62,7 @@ main {
     color: #ffffff; /* Couleur blanche */
     margin-bottom: 10px;
     line-height: 1.1;
+    font-weight: normal; /* Essayer de forcer un poids normal */
     text-rendering: optimizeLegibility; /* Tentative d'amélioration de la netteté */
     -webkit-font-smoothing: antialiased; /* Lissage pour Webkit/Blink */
     -moz-osx-font-smoothing: grayscale; /* Lissage pour Firefox sur macOS */

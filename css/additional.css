@@ -297,17 +297,43 @@ footer::before {
     line-height: 1;
 }
 
-/* Couleurs icônes (inchangées) */
-.weather-icon.sun { color: #FFD700; }
-.weather-icon.cloud-sun { color: #adb5bd; }
-.weather-icon.cloud { color: #6c757d; }
-.weather-icon.wind { color: #0077C8; }
-.weather-icon.smog { color: #adb5bd; }
-.weather-icon.cloud-showers-heavy { color: #495057; }
-.weather-icon.snowflake { color: #adb5bd; }
-.weather-icon.bolt { color: #FFD700; }
-.weather-icon.cloud-rain { color: #6c757d; }
-.weather-icon.question { color: #ced4da; }
+/* --- Icônes Météo CSS --- */
+.weather-icon {
+    position: relative; /* Nécessaire pour les pseudo-éléments */
+    width: 60px; /* Taille fixe pour le conteneur d'icône */
+    height: 60px;
+    margin: 0 auto 15px auto; /* Centrage */
+    line-height: 60px; /* Centrer le contenu (si texte/emoji) */
+}
+
+.weather-icon i { /* Masquer l'icône FontAwesome si présente */
+    display: none;
+}
+
+/* Soleil CSS */
+.weather-icon.sun {
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFDA63 40%, #FFC107 60%, rgba(255,193,7,0) 75%);
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Lueur externe */
+}
+/* Rayons (optionnel, peut être complexe) */
+/* .weather-icon.sun::before, .weather-icon.sun::after { ... } */
+
+/* Autres icônes (simplifiées pour l'instant, on garde les couleurs FA) */
+.weather-icon.cloud-sun::before { content: "⛅"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
+.weather-icon.cloud::before { content: "☁️"; font-size: 3.5rem; color: #6c757d; } /* Emoji */
+.weather-icon.smog::before { content: "🌫️"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
+.weather-icon.cloud-showers-heavy::before { content: "🌧️"; font-size: 3.5rem; color: #495057; } /* Emoji */
+.weather-icon.snowflake::before { content: "❄️"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
+.weather-icon.bolt::before { content: "⚡"; font-size: 3.5rem; color: #FFD700; } /* Emoji */
+.weather-icon.cloud-rain::before { content: "🌦️"; font-size: 3.5rem; color: #6c757d; } /* Emoji */
+.weather-icon.question::before { content: "?"; font-size: 3.5rem; color: #ced4da; }
+
+/* Icône vent dans les détails (inchangée) */
+.weather-details .fa-wind {
+    margin-left: 5px;
+    color: #0077C8;
+}
 
 .weather-details {
     margin-top: 15px;

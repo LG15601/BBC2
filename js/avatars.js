@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Michel G", profil: "Vieux Briscard", punchline: "La dernière fois qu'il est monté sur un vélo, Festina était encore une équipe sérieuse." },
         { name: "Pierre V", profil: "Vieux Briscard", punchline: "Son KOM le plus impressionnant ? Celui de la falaise du coin, sans vélo." },
         { name: "Younes Y", profil: "Epicurien", punchline: "L'ex-artiste du foot amateur qui dribblait les tacles dans les prés du Cantal." },
-        { name: "Romain M", profil: "Epicurien", punchline: "Son point fort en vélo ? La transition rapide pour aller courir (et moins souffrir)." },
-        { name: "Morgan P", profil: "Baroudeur", punchline: "Son excuse favorite quand il est dans le dur : 'Désolé, j'ai ma séance de course à pied demain matin'." },
-        { name: "Guillaume A", profil: "Grimpeur", punchline: "Passe plus de temps à charger sa montre GPS qu'à rouler." },
+        { name: "Romain M", profil: "Epicurien", punchline: "en forme il pourrait faire l’ascenseur dans un col… mais en forme !" },
+        { name: "Morgan P", profil: "Baroudeur", punchline: "les gains marginaux pour faire décoller les avions et un vélo de collection !" },
+        { name: "Guillaume A", profil: "Grimpeur", punchline: "toujours le vélo dans coffre et parfois les jambes dans le sac (du Forza Viola)" },
         { name: "Patrick L", profil: "Vieux Briscard", punchline: "'C'était mieux avant', surtout quand il est à l'agonie dans la roue d'un jeune." },
         { name: "Olivier G", profil: "Baroudeur", punchline: "Cherche toujours le panneau 'Machu Picchu' au sommet des monts de Lacaune." },
-        { name: "Manu", profil: "Baroudeur", punchline: "Son sprint est lancé 'Boudu Con !'" }
+        { name: "Manu", profil: "Baroudeur", punchline: "un petit homme mais un grand cycliste ! Quintana quoi." }
     ];
 
     const profilColors = {

@@ -2,32 +2,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const weatherContainer = document.querySelector('.weather-widget-container');
     if (!weatherContainer) return;
 
-    // --- Données Météo Simulées pour le 05/04/2025 (9h-13h) ---
+    // --- Données Météo Simulées pour le 05/04/2025 (9h-13h) - Basées sur l'image fournie ---
     // À remplacer par un appel API réel
     const weatherData = [
         {
             city: "Castres (Départ)",
-            iconClass: "fas fa-cloud-sun cloud-sun", // Icône FontAwesome (nuage-soleil)
-            temp: "12°C",
-            description: "Partiellement nuageux",
-            windSpeed: "15 km/h",
-            windDirection: "NO" // Nord-Ouest
+            iconClass: "fas fa-sun sun", // Icône Soleil
+            temp: "14°C", // Température estimée pour 9h-13h
+            description: "Ensoleillé",
+            windSpeed: "16 km/h (raf. 45 km/h)", // Vent moyen corrigé et rafales
+            windDirection: "NO" // Nord-Ouest (basé sur flèche image)
         },
         {
             city: "Les Cammazes (Point Chaud)",
-            iconClass: "fas fa-cloud cloud", // Icône FontAwesome (nuage)
-            temp: "10°C",
-            description: "Nuageux",
-            windSpeed: "20 km/h",
-            windDirection: "O" // Ouest
+            iconClass: "fas fa-sun sun", // Icône Soleil
+            temp: "12°C", // Légèrement plus frais en altitude
+            description: "Ensoleillé",
+            windSpeed: "16 km/h (raf. 45 km/h)", // Vent moyen corrigé et rafales
+            windDirection: "NO"
         },
         {
             city: "Castelnaudary (Arrivée)",
-            iconClass: "fas fa-sun sun", // Icône FontAwesome (soleil)
-            temp: "14°C",
+            iconClass: "fas fa-sun sun", // Icône Soleil
+            temp: "15°C", // Légèrement plus chaud à l'arrivée
             description: "Ensoleillé",
-            windSpeed: "10 km/h",
-            windDirection: "SO" // Sud-Ouest
+            windSpeed: "16 km/h (raf. 45 km/h)", // Vent moyen corrigé et rafales
+            windDirection: "NO"
         }
     ];
     // --- Fin des données simulées ---

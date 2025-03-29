@@ -297,42 +297,30 @@ footer::before {
     line-height: 1;
 }
 
-/* --- Icônes Météo CSS --- */
+/* --- Icônes Météo Font Awesome Stylées --- */
 .weather-icon {
-    position: relative; /* Nécessaire pour les pseudo-éléments */
-    width: 60px; /* Taille fixe pour le conteneur d'icône */
-    height: 60px;
-    margin: 0 auto 15px auto; /* Centrage */
-    line-height: 60px; /* Centrer le contenu (si texte/emoji) */
+    font-size: 3.8rem; /* Taille de l'icône FA */
+    margin-bottom: 18px;
+    line-height: 1;
+    display: block; /* Assurer l'affichage */
+    /* Appliquer les couleurs spécifiques via des classes */
 }
 
-.weather-icon i { /* Masquer l'icône FontAwesome si présente */
-    display: none;
-}
+.weather-icon.sun { color: #f7b731; text-shadow: 0 0 10px rgba(247, 183, 49, 0.5); }
+.weather-icon.cloud-sun { color: #7f8c8d; } /* Gris doux */
+.weather-icon.cloud { color: #95a5a6; } /* Gris plus clair */
+.weather-icon.smog { color: #bdc3c7; }
+.weather-icon.cloud-showers-heavy { color: #34495e; } /* Bleu foncé/gris */
+.weather-icon.snowflake { color: #ecf0f1; } /* Blanc cassé */
+.weather-icon.bolt { color: #f1c40f; } /* Jaune */
+.weather-icon.cloud-rain { color: #7f8c8d; }
+.weather-icon.question { color: #bdc3c7; }
 
-/* Soleil CSS */
-.weather-icon.sun {
-    border-radius: 50%;
-    background: radial-gradient(circle, #FFDA63 40%, #FFC107 60%, rgba(255,193,7,0) 75%);
-    box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Lueur externe */
-}
-/* Rayons (optionnel, peut être complexe) */
-/* .weather-icon.sun::before, .weather-icon.sun::after { ... } */
-
-/* Autres icônes (simplifiées pour l'instant, on garde les couleurs FA) */
-.weather-icon.cloud-sun::before { content: "⛅"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
-.weather-icon.cloud::before { content: "☁️"; font-size: 3.5rem; color: #6c757d; } /* Emoji */
-.weather-icon.smog::before { content: "🌫️"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
-.weather-icon.cloud-showers-heavy::before { content: "🌧️"; font-size: 3.5rem; color: #495057; } /* Emoji */
-.weather-icon.snowflake::before { content: "❄️"; font-size: 3.5rem; color: #adb5bd; } /* Emoji */
-.weather-icon.bolt::before { content: "⚡"; font-size: 3.5rem; color: #FFD700; } /* Emoji */
-.weather-icon.cloud-rain::before { content: "🌦️"; font-size: 3.5rem; color: #6c757d; } /* Emoji */
-.weather-icon.question::before { content: "?"; font-size: 3.5rem; color: #ced4da; }
-
-/* Icône vent dans les détails (inchangée) */
+/* Icône vent dans les détails */
 .weather-details .fa-wind {
     margin-left: 5px;
-    color: #0077C8;
+    color: #3498db; /* Bleu plus vif */
+    font-size: 0.9em; /* Légèrement plus petit que le texte */
 }
 
 .weather-details {

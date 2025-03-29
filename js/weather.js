@@ -94,12 +94,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Mettre à jour la carte
             card.classList.remove('loading');
-            // Utiliser la classe 'sun', 'cloud', etc. directement sur le div .weather-icon
-            const iconBaseClass = weatherInfo.iconClass.split(' ')[1] || 'question';
+            // Réinsérer l'élément <i> avec les classes Font Awesome
+            const iconBaseClass = weatherInfo.iconClass.split(' ')[1] || 'question'; // Extrait 'sun', 'cloud', etc.
             card.innerHTML = `
                 <h3>${location.name}</h3>
                 <div class="weather-icon ${iconBaseClass}">
-                    <!-- L'icône est maintenant gérée par CSS -->
+                    <i class="${weatherInfo.iconClass}"></i> <!-- Icône Font Awesome -->
                 </div>
                 <div class="weather-details">
                     <p><strong>Temp (9h-13h):</strong> ${avgTemp.toFixed(1)}°C</p>

@@ -12,19 +12,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Fonctions Utilitaires ---
 
-    // Traduction WMO Code -> Icône FontAwesome & Description
+    // Traduction WMO Code -> Emoji & Description
     function getWeatherInfo(wmoCode) {
         const info = {
-            iconClass: "fas fa-question", // Icône par défaut
+            emoji: "❓", // Emoji par défaut
+            cssClass: "question", // Classe CSS pour le style
             description: "Inconnu"
         };
-        if (wmoCode === 0) { info.iconClass = "fas fa-sun sun"; info.description = "Ensoleillé"; }
-        else if (wmoCode >= 1 && wmoCode <= 3) { info.iconClass = "fas fa-cloud-sun cloud-sun"; info.description = "Partiellement nuageux"; }
-        else if (wmoCode === 45 || wmoCode === 48) { info.iconClass = "fas fa-smog"; info.description = "Brouillard"; }
-        else if ((wmoCode >= 51 && wmoCode <= 57) || (wmoCode >= 61 && wmoCode <= 67) || (wmoCode >= 80 && wmoCode <= 82)) { info.iconClass = "fas fa-cloud-showers-heavy"; info.description = "Pluie/Averses"; }
-        else if (wmoCode >= 71 && wmoCode <= 77) { info.iconClass = "fas fa-snowflake"; info.description = "Neige"; }
-        else if (wmoCode >= 95 && wmoCode <= 99) { info.iconClass = "fas fa-bolt"; info.description = "Orage"; }
-        else if (wmoCode >= 58 && wmoCode <= 60) { info.iconClass = "fas fa-cloud-rain"; info.description = "Bruine"; }
+        if (wmoCode === 0) {
+            info.emoji = "☀️";
+            info.cssClass = "sun";
+            info.description = "Ensoleillé";
+        }
+        else if (wmoCode >= 1 && wmoCode <= 3) {
+            info.emoji = "🌤️";
+            info.cssClass = "cloud-sun";
+            info.description = "Partiellement nuageux";
+        }
+        else if (wmoCode === 45 || wmoCode === 48) {
+            info.emoji = "🌫️";
+            info.cssClass = "smog";
+            info.description = "Brouillard";
+        }
+        else if ((wmoCode >= 51 && wmoCode <= 57) || (wmoCode >= 61 && wmoCode <= 67) || (wmoCode >= 80 && wmoCode <= 82)) {
+            info.emoji = "🌧️";
+            info.cssClass = "cloud-showers-heavy";
+            info.description = "Pluie/Averses";
+        }
+        else if (wmoCode >= 71 && wmoCode <= 77) {
+            info.emoji = "❄️";
+            info.cssClass = "snowflake";
+            info.description = "Neige";
+        }
+        else if (wmoCode >= 95 && wmoCode <= 99) {
+            info.emoji = "⚡";
+            info.cssClass = "bolt";
+            info.description = "Orage";
+        }
+        else if (wmoCode >= 58 && wmoCode <= 60) {
+            info.emoji = "🌦️";
+            info.cssClass = "cloud-rain";
+            info.description = "Bruine";
+        }
         // Ajouter d'autres codes si nécessaire
         return info;
     }
@@ -94,17 +123,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Mettre à jour la carte
             card.classList.remove('loading');
-            // Réinsérer l'élément <i> avec les classes Font Awesome
-            const iconBaseClass = weatherInfo.iconClass.split(' ')[1] || 'question'; // Extrait 'sun', 'cloud', etc.
+            // Utiliser l'emoji au lieu de l'icône Font Awesome
             card.innerHTML = `
                 <h3>${location.name}</h3>
-                <div class="weather-icon ${iconBaseClass}">
-                    <i class="${weatherInfo.iconClass}"></i> <!-- Icône Font Awesome -->
+                <div class="weather-icon ${weatherInfo.cssClass}">
+                    <span class="weather-emoji">${weatherInfo.emoji}</span>
                 </div>
                 <div class="weather-details">
                     <p><strong>Temp (9h-13h):</strong> ${avgTemp.toFixed(1)}°C</p>
                     <p><strong>Météo:</strong> ${weatherInfo.description}</p>
-                    <p><strong>Vent:</strong> ${avgWindSpeed.toFixed(0)} km/h (raf. ${maxGust.toFixed(0)} km/h) ${avgWindDirectionCardinal} <i class="fas fa-wind wind"></i></p>
+                    <p><strong>Vent:</strong> ${avgWindSpeed.toFixed(0)} km/h (raf. ${maxGust.toFixed(0)} km/h) ${avgWindDirectionCardinal} 💨</p>
                 </div>
             `;
 

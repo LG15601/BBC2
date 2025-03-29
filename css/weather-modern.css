@@ -126,6 +126,14 @@
     background: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));
 }
 
+/* Masquer les traits horizontaux à gauche des icônes */
+.weather-icon i::before {
+    display: inline-block !important;
+}
+.weather-icon i > svg path:not(:last-child) {
+    display: none !important;
+}
+
 .weather-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
@@ -143,7 +151,7 @@
     text-fill-color: transparent;
 }
 
-/* --- Icônes Météo Améliorées --- */
+/* --- Emojis Météo Améliorés --- */
 .weather-icon {
     font-size: 4.5em;
     margin: 20px 0;
@@ -164,46 +172,41 @@
     z-index: -1;
 }
 
-/* Couleurs et effets spéciaux pour les icônes */
-.weather-icon.sun i {
-    color: var(--icon-sun-color);
-    text-shadow: 0 0 20px rgba(255, 183, 3, 0.7);
+/* Style pour les emojis */
+.weather-emoji {
+    font-size: 1.2em;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.7));
+    position: relative;
+    z-index: 2;
+}
+
+/* Animations spécifiques pour chaque type de météo */
+.weather-icon.sun .weather-emoji {
     animation: pulse-and-spin 10s infinite linear;
 }
 
-.weather-icon.cloud-sun i {
-    color: var(--icon-cloud-color);
-    text-shadow: 0 0 10px rgba(142, 202, 230, 0.5);
+.weather-icon.cloud-sun .weather-emoji {
+    animation: float 6s infinite ease-in-out;
 }
 
-.weather-icon.cloud i {
-    color: var(--icon-cloud-color);
-    text-shadow: 0 0 10px rgba(142, 202, 230, 0.5);
+.weather-icon.cloud .weather-emoji {
     animation: float 5s infinite ease-in-out;
 }
 
-.weather-icon.smog i {
-    color: var(--icon-fog-color);
-    text-shadow: 0 0 10px rgba(173, 181, 189, 0.5);
+.weather-icon.smog .weather-emoji {
     animation: float 7s infinite ease-in-out;
 }
 
-.weather-icon.cloud-showers-heavy i,
-.weather-icon.cloud-rain i {
-    color: var(--icon-rain-color);
-    text-shadow: 0 0 10px rgba(33, 158, 188, 0.6);
+.weather-icon.cloud-showers-heavy .weather-emoji,
+.weather-icon.cloud-rain .weather-emoji {
     animation: float 4s infinite ease-in-out;
 }
 
-.weather-icon.snowflake i {
-    color: var(--icon-snow-color);
-    text-shadow: 0 0 10px rgba(233, 236, 239, 0.8);
+.weather-icon.snowflake .weather-emoji {
     animation: spin-slow 15s infinite linear;
 }
 
-.weather-icon.bolt i {
-    color: var(--icon-storm-color);
-    text-shadow: 0 0 15px rgba(2, 48, 71, 0.7);
+.weather-icon.bolt .weather-emoji {
     animation: flash 5s infinite;
 }
 

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Romain M", profil: "Epicurien", punchline: "en forme il pourrait faire l’ascenseur dans un col… mais en forme !" },
         { name: "Morgan P", profil: "Baroudeur", punchline: "les gains marginaux pour faire décoller les avions et un vélo de collection !" },
         { name: "Guillaume A", profil: "Grimpeur", punchline: "toujours le vélo dans coffre et parfois les jambes dans le sac (du Forza Viola)" },
-        { name: "Patrick L", profil: "Vieux Briscard", punchline: "'C'était mieux avant', surtout quand il est à l'agonie dans la roue d'un jeune." },
+        { name: "Patrick L", profil: "Vieux Briscard", punchline: "Né sur les pentes du Lagast et peut aller à la mer à vélo !" },
         { name: "Olivier G", profil: "Baroudeur", punchline: "Cherche toujours le panneau 'Machu Picchu' au sommet des monts de Lacaune." },
         { name: "Manu", profil: "Baroudeur", punchline: "un petit homme mais un grand cycliste ! Quintana quoi." }
     ];

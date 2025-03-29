@@ -235,87 +235,117 @@ footer::before {
      }
 }
 
-/* --- Styles Météo --- */
+/* --- Styles Météo Modernisés --- */
 #meteo {
-    background-color: #f8f8f8; /* Fond légèrement différent pour la section */
-    color: var(--dark-color); /* Texte sombre sur fond clair */
-    padding: 40px 0;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    background: linear-gradient(to bottom, #e9ecef, #f8f9fa); /* Dégradé gris clair */
+    color: var(--dark-color);
+    padding: 50px 0;
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
 }
 
 #meteo .section-title {
-    color: var(--dark-color); /* Titre sombre */
+    color: var(--dark-color);
+    margin-bottom: 15px; /* Réduire marge sous titre */
 }
 
 #meteo .section-subtitle {
-    color: #555; /* Sous-titre gris */
+    color: #6c757d; /* Gris plus doux */
+    margin-bottom: 40px; /* Plus d'espace avant les cartes */
 }
 
 .weather-widget-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
+    justify-content: center; /* Centrer les cartes */
+    gap: 25px; /* Augmenter l'espace */
     margin-top: 30px;
 }
 
 .weather-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* Fond blanc pur */
+    border-radius: 15px; /* Plus arrondi */
+    padding: 25px; /* Plus de padding interne */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Ombre plus douce */
     text-align: center;
-    flex: 1;
-    min-width: 250px;
-    max-width: 300px;
+    flex: 0 1 300px; /* Base flexible, ne grandit pas, max 300px */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e9ecef; /* Bordure subtile */
+}
+
+.weather-card.loading, .weather-card.error {
+    background-color: #f8f9fa;
+    color: #6c757d;
 }
 
 .weather-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px); /* Effet de survol plus prononcé */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
 .weather-card h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--primary-color);
-    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif; /* Police standard pour le titre */
+    font-weight: 700;
+    font-size: 1.3rem; /* Taille ajustée */
+    color: #343a40; /* Couleur titre plus sombre */
+    margin-bottom: 20px; /* Plus d'espace sous le titre */
 }
 
 .weather-icon {
-    font-size: 3rem;
-    margin-bottom: 10px;
+    font-size: 3.5rem; /* Icône plus grande */
+    margin-bottom: 15px; /* Plus d'espace sous l'icône */
+    line-height: 1;
 }
 
+/* Couleurs icônes (inchangées) */
 .weather-icon.sun { color: #FFD700; }
-.weather-icon.cloud-sun { color: #adb5bd; } /* Gris clair */
-.weather-icon.cloud { color: #6c757d; } /* Gris moyen */
-.weather-icon.wind { color: #0077C8; } /* Bleu */
+.weather-icon.cloud-sun { color: #adb5bd; }
+.weather-icon.cloud { color: #6c757d; }
+.weather-icon.wind { color: #0077C8; }
+.weather-icon.smog { color: #adb5bd; }
+.weather-icon.cloud-showers-heavy { color: #495057; }
+.weather-icon.snowflake { color: #adb5bd; }
+.weather-icon.bolt { color: #FFD700; }
+.weather-icon.cloud-rain { color: #6c757d; }
+.weather-icon.question { color: #ced4da; }
+
+.weather-details {
+    margin-top: 15px;
+}
 
 .weather-details p {
-    margin-bottom: 8px;
-    font-size: 1rem;
-    color: #333;
+    margin-bottom: 10px;
+    font-size: 0.95rem; /* Taille légèrement ajustée */
+    color: #495057; /* Couleur texte plus douce */
+    line-height: 1.5;
 }
 
 .weather-details strong {
-    color: #000;
+    color: #212529; /* Noir moins intense */
+    font-weight: 600;
 }
 
-/* Responsive Météo */
-@media (max-width: 900px) {
-    .weather-widget-container {
-        justify-content: center;
-    }
+.weather-details .fa-wind {
+    margin-left: 5px;
+    color: #0077C8; /* Assurer la couleur de l'icône vent */
+}
+
+/* Responsive Météo (Ajustements) */
+@media (max-width: 992px) { /* Point de rupture tablette */
     .weather-card {
-        max-width: 350px; /* Permettre un peu plus large si moins de cartes par ligne */
+        flex-basis: calc(50% - 12.5px); /* 2 cartes par ligne */
+        max-width: none; /* Enlever la largeur max */
     }
 }
 
 @media (max-width: 600px) {
     .weather-card {
-        min-width: 80%; /* Prendre plus de largeur sur mobile */
+        flex-basis: 90%; /* 1 carte par ligne */
+    }
+    #meteo {
+        padding: 40px 0;
+    }
+    .weather-icon {
+        font-size: 3rem;
     }
 }

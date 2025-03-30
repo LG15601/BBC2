@@ -1,0 +1,96 @@
+/* Styles généraux */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden; /* Empêche le scroll de la page entière */
+}
+
+/* Conteneur de la carte et des infos */
+#app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Prend toute la hauteur de la vue */
+}
+
+/* Header (Titre, etc.) */
+#header {
+    background-color: #E67E22; /* Orange Gueuleton */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1001; /* Au dessus de la carte */
+    flex-shrink: 0; /* Ne pas réduire le header */
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+/* La carte elle-même */
+#map {
+    flex-grow: 1; /* Prend tout l'espace restant */
+    width: 100%;
+    background-color: #e0e0e0; /* Couleur de fond pendant le chargement */
+}
+
+/* Style des Popups Leaflet */
+.leaflet-popup-content-wrapper {
+    background: rgba(255, 255, 255, 0.9); /* Fond blanc semi-transparent */
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+}
+
+.leaflet-popup-content {
+    font-size: 1em;
+    line-height: 1.4;
+    margin: 10px !important; /* Espace intérieur */
+    min-width: 150px;
+    color: #333;
+}
+
+.leaflet-popup-content b {
+    color: #E67E22; /* Nom en orange */
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.leaflet-popup-content span {
+    font-size: 0.85em;
+    color: #555;
+}
+
+/* Style pour les marqueurs (si on utilise des icônes DivIcon) */
+.cyclist-marker-icon {
+    background-color: #3498DB; /* Bleu cycliste */
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    line-height: 20px; /* Ajuster selon la taille */
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    font-size: 0.8em; /* Taille de l'initiale */
+}
+
+.cyclist-marker-icon.inactive {
+    background-color: #95a5a6; /* Gris pour inactif */
+    opacity: 0.7;
+}
+
+/* Icône personnalisée pour Départ/Arrivée (exemple) */
+.start-finish-icon {
+    font-size: 1.8em; /* Taille de l'icône emoji */
+    background: none;
+    border: none;
+    width: auto !important;
+    height: auto !important;
+}
+.start-finish-icon .emoji {
+     text-shadow: 0 0 3px white; /* Lisibilité sur la carte */
+}

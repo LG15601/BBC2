@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker - Gueuleton Express</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 400px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #E67E22; /* Orange Gueuleton */ text-align: center; margin-bottom: 20px; font-size: 1.8em; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input[type="text"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em; }
+        button { background-color: #2ECC71; /* Vert Départ */ color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1em; width: 100%; transition: background-color 0.3s ease; }
+        button:hover { background-color: #27AE60; }
+        button:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        #status { margin-top: 25px; padding: 15px; border-radius: 4px; font-weight: bold; text-align: center; }
+        .status-info { background-color: #eafaf1; color: #2ECC71; border: 1px solid #b6e9c9; }
+        .status-error { background-color: #fbeaea; color: #e74c3c; border: 1px solid #f5c6cb; }
+        .status-inactive { background-color: #ecf0f1; color: #7f8c8d; border: 1px solid #bdc3c7;}
+        .warning { font-size: 0.9em; color: #e74c3c; margin-top: 15px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mon Tracker</h1>
+        <p>Entrez votre nom/pseudo unique et cliquez sur 'Démarrer'. Gardez cette page ouverte et active !</p>
+
+        <label for="cyclistName">Votre nom / pseudo :</label>
+        <input type="text" id="cyclistName" placeholder="Ex: Zaza_le_sprinteur"/>
+
+        <button id="trackButton" onclick="startTracking()">Démarrer le suivi</button>
+
+        <div id="status" class="status-inactive">Statut : Inactif</div>
+        <p class="warning">Attention: Le suivi GPS consomme de la batterie et peut s'arrêter si le navigateur est fermé ou mis en veille.</p>
+    </div>
+
+    <!-- Inclure le client Supabase JS V2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // --- CONFIGURATION ---
+        const SUPABASE_URL = 'https://jmqvuvsjlisguoyznhxe.supabase.co'; // URL Supabase
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptcXZ1dnNqbGlzZ3VveXpuaHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzMTI0NDUsImV4cCI6MjA1ODg4ODQ0NX0.OcI8XIRrWgi3isajiL1cQRgqaVXf30fFNuIAd9U9CkU'; // Clé anon public
+        // --------------------
+
+        let supabase;
+        let watchId = null;
+        let cyclistId = null; // Utilisera le nom entré comme ID unique simplifié
+        let isTracking = false;
+
+        const statusEl = document.getElementById('status');
+        const nameInput = document.getElementById('cyclistName');
+        const trackButton = document.getElementById('trackButton');
+
+        function updateStatus(message, type = 'info') { // types: info, error, inactive
+            statusEl.textContent = `Statut : ${message}`;
+            statusEl.className = `status-${type}`; // Met à jour la classe pour le style
+            console.log(`[Tracker Status - ${type}]: ${message}`);
+        }
+
+        async function sendLocationToSupabase(latitude, longitude) {
+            if (!supabase || !cyclistId || !isTracking) {
+                console.warn("Supabase non prêt, nom manquant ou suivi arrêté. Envoi annulé.");
+                return; // Ne pas envoyer si on a arrêté
+            }
+
+            updateStatus(`Envoi position pour ${cyclistId}...`, 'info');
+
+            try {
+                const { data, error } = await supabase
+                    .from('locations_cyclistes')
+                    .upsert({
+                        cyclist_id: cyclistId,
+                        name: cyclistId, // Utilise le même nom pour l'affichage (peut être différent si besoin)
+                        latitude: latitude,
+                        longitude: longitude,
+                        last_updated: new Date().toISOString()
+                    }, {
+                        onConflict: 'cyclist_id' // Crucial : utilise la colonne unique pour la mise à jour
+                    })
+                    .select(); // Pour récupérer la donnée insérée/mise à jour (optionnel)
+
+                if (error) throw error;
+
+                console.log('Position envoyée:', data);
+                // Afficher seulement 4 décimales pour la lisibilité
+                updateStatus(`Position envoyée (${latitude.toFixed(4)}, ${longitude.toFixed(4)})`, 'info');
+
+            } catch (error) {
+                console.error('Erreur Supabase:', error.message);
+                updateStatus(`Erreur envoi: ${error.message}`, 'error');
+                // Optionnel: Arrêter le suivi en cas d'erreur persistante ?
+                // stopTracking();
+            }
+        }
+
+        function locationSuccess(position) {
+            console.log('Nouvelle position GPS reçue:', position.coords);
+            const { latitude, longitude } = position.coords;
+            sendLocationToSupabase(latitude, longitude);
+        }
+
+        function locationError(error) {
+            console.error("Erreur Géoloc:", error);
+            let message = "Erreur GPS inconnue";
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    message = "Permission GPS refusée.";
+                    stopTracking(); // Arrêter si permission refusée
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    message = "Position GPS indisponible.";
+                    break;
+                case error.TIMEOUT:
+                    message = "Timeout GPS.";
+                    break;
+            }
+             updateStatus(message, 'error');
+        }
+
+        function startTracking() {
+            cyclistId = nameInput.value.trim().toLowerCase().replace(/[^a-z0-9_]/g, '_'); // Nettoie pour ID simple
+
+            if (!cyclistId) {
+                alert("Veuillez entrer un nom ou pseudo unique !");
+                return;
+            }
+
+            // Initialiser Supabase si ce n'est pas déjà fait
+            if (!supabase) {
+                 try {
+                    // Correction de l'initialisation de Supabase
+                    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log("Supabase Client Initialisé");
+                 } catch (e) {
+                    console.error("Erreur initialisation Supabase:", e);
+                    updateStatus("Erreur connexion Supabase", "error");
+                    return;
+                 }
+            }
+
+            if (navigator.geolocation) {
+                updateStatus("Demande permission GPS...", 'info');
+                nameInput.disabled = true;
+                trackButton.disabled = true;
+                trackButton.textContent = 'Suivi en cours...';
+                isTracking = true;
+
+                const options = {
+                    enableHighAccuracy: true, // Plus précis, plus de batterie
+                    timeout: 25000, // 25 sec max pour obtenir la position
+                    maximumAge: 5000 // Ne pas utiliser une position en cache de plus de 5 sec
+                };
+
+                // Commence à surveiller la position
+                watchId = navigator.geolocation.watchPosition(locationSuccess, locationError, options);
+                updateStatus("Suivi GPS activé pour " + cyclistId + ". Attente première position...", 'info');
+
+            } else {
+                updateStatus("Géolocalisation non supportée.", 'error');
+            }
+        }
+
+        // Fonction pour arrêter proprement (même si non utilisée par un bouton ici)
+        function stopTracking() {
+             if (watchId !== null) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                console.log("Watch GPS arrêté.");
+             }
+             isTracking = false;
+             nameInput.disabled = false;
+             trackButton.disabled = false;
+             trackButton.textContent = 'Démarrer le suivi';
+             // Ne pas remettre le statut à 'Inactif' si l'arrêt est dû à une erreur de permission
+             if (statusEl.className !== 'status-error') {
+                 updateStatus("Suivi arrêté par l'utilisateur.", 'inactive');
+             }
+        }
+
+        // Essayer d'arrêter proprement si la page est fermée (pas garanti)
+        window.addEventListener('beforeunload', () => {
+            if (isTracking) {
+                 // Optionnel: envoyer une dernière info pour dire qu'on se déconnecte ?
+                 // Peut être utile pour griser le marqueur sur la carte plus vite.
+                 console.log("Tentative d'arrêt du suivi avant fermeture.");
+                 // Note: On ne peut pas faire d'appel async fiable ici.
+                 navigator.geolocation.clearWatch(watchId); // Au moins arrêter le watch GPS
+            }
+        });
+
+    </script>
+</body>
+</html>

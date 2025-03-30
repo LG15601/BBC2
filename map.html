@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Temps Réel - Gueuleton Express</title>
+
+    <!-- CSS Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- CSS Personnalisé -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JS Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- JS Supabase V2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+
+<div id="app-container">
+    <div id="header">
+        <h1>La Gueuleton Express - Suivi Live</h1>
+    </div>
+    <div id="map"></div>
+</div>
+
+<script>
+    // --- CONFIGURATION ---
+    const SUPABASE_URL = 'https://jmqvuvsjlisguoyznhxe.supabase.co'; // URL Supabase
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptcXZ1dnNqbGlzZ3VveXpuaHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzMTI0NDUsImV4cCI6MjA1ODg4ODQ0NX0.OcI8XIRrWgi3isajiL1cQRgqaVXf30fFNuIAd9U9CkU'; // Clé anon public
+    const MAPTILER_API_KEY = 'WgNF86y7GrgqVep8isPi'; // Clé MapTiler
+
+    const CASTRES_COORDS = [43.606, 2.24];
+    const CASTELNAUDARY_COORDS = [43.318, 1.795];
+    const CENTER_MAP_COORDS = [43.46, 2.0]; // Entre les deux villes
+    const INITIAL_ZOOM = 10;
+    const MAX_INACTIVE_MINUTES = 15; // Marqueur devient 'inactif' après X minutes sans update
+    // --------------------
+
+    // Initialisation Supabase
+    let supabase;
+    try {
+         // Correction de l'initialisation de Supabase
+         supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+         console.log("Supabase Client Initialisé pour la carte.");
+    } catch(e) {
+        console.error("Erreur initialisation Supabase:", e);
+        alert("Impossible d'initialiser la connexion à la base de données.");
+        // Bloquer le reste du script si Supabase ne s'initie pas
+        throw new Error("Supabase init failed");
+    }
+
+
+    // Initialisation de la carte Leaflet
+    const map = L.map('map', {
+        // zoomControl: false // Optionnel: cacher les boutons +/- zoom par défaut
+    }).setView(CENTER_MAP_COORDS, INITIAL_ZOOM);
+
+    // Ajout du fond de carte design (MapTiler Streets)
+    L.tileLayer(
+        `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_API_KEY}`, {
+            tileSize: 512,
+            zoomOffset: -1,
+            minZoom: 1,
+            attribution: `<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>`,
+            crossOrigin: true
+        }
+    ).addTo(map);
+
+    // Optionnel: Ajouter échelle, contrôle de zoom ailleurs...
+    // L.control.scale({ imperial: false }).addTo(map);
+    // L.control.zoom({ position: 'topright' }).addTo(map);
+
+
+    // Stockage des marqueurs { cyclist_id: { marker: L.Marker, lastUpdate: timestamp } }
+    let cyclistMarkers = {};
+
+
+    // --- Icônes Personnalisées ---
+    // Icône Départ (Vélo)
+    const startIcon = L.divIcon({
+        html: '<div class="emoji">🚴</div>',
+        className: 'start-finish-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30] // Pointe en bas au centre
+    });
+
+    // Icône Arrivée (Cassoulet !)
+    const finishIcon = L.divIcon({
+        html: '<div class="emoji">🍲</div>', // Ou 🏆
+        className: 'start-finish-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
+    });
+
+    // Marqueurs Départ et Arrivée
+    L.marker(CASTRES_COORDS, { icon: startIcon, title: "Départ : Castres" })
+     .addTo(map).bindPopup("<b>Départ : Castres</b><br>Bon courage !");
+    L.marker(CASTELNAUDARY_COORDS, { icon: finishIcon, title: "Arrivée : Castelnaudary" })
+     .addTo(map).bindPopup("<b>Arrivée : Castelnaudary</b><br>Le Gueuleton vous attend !");
+
+
+    // --- Fonction pour créer/mettre à jour un marqueur de cycliste ---
+    function updateMarker(cyclistData) {
+        const { cyclist_id, name, latitude, longitude, last_updated } = cyclistData;
+
+        if (!latitude || !longitude || !cyclist_id) {
+            console.warn("Données cycliste incomplètes reçues:", cyclistData);
+            return;
+        }
+
+        const latLng = L.latLng(latitude, longitude);
+        const lastUpdateTimestamp = new Date(last_updated).getTime();
+        const now = Date.now();
+        const minutesSinceUpdate = (now - lastUpdateTimestamp) / (1000 * 60);
+        const isInactive = minutesSinceUpdate > MAX_INACTIVE_MINUTES;
+
+        const popupContent = `<b>${name || cyclist_id}</b><br>
+                              <span>Dernière MàJ: ${new Date(last_updated).toLocaleTimeString()}
+                              ${isInactive ? ' (Inactif)' : ''}</span>`;
+
+        // Utilisation de DivIcon pour afficher l'initiale ou un petit indicateur
+        const initiale = (name || cyclist_id).charAt(0).toUpperCase();
+        const markerHtml = `<div class="cyclist-marker-icon ${isInactive ? 'inactive' : ''}">${initiale}</div>`;
+        const customIcon = L.divIcon({
+            html: markerHtml,
+            className: '', // Ne pas ajouter de classe par défaut de Leaflet
+            iconSize: [24, 24],
+            iconAnchor: [12, 12], // Centré
+            popupAnchor: [0, -12] // Popup au dessus
+        });
+
+
+        if (cyclistMarkers[cyclist_id]) {
+            // Marqueur existant : mise à jour position, popup et style icône
+            const existing = cyclistMarkers[cyclist_id];
+            existing.marker.setLatLng(latLng);
+            existing.marker.setIcon(customIcon); // Mise à jour style (actif/inactif)
+            existing.marker.getPopup().setContent(popupContent);
+            existing.lastUpdate = lastUpdateTimestamp;
+            console.log(`Marqueur mis à jour pour ${cyclist_id}`);
+
+        } else {
+            // Nouveau marqueur
+            const marker = L.marker(latLng, { icon: customIcon, title: name || cyclist_id })
+                            .addTo(map)
+                            .bindPopup(popupContent);
+
+            cyclistMarkers[cyclist_id] = { marker: marker, lastUpdate: lastUpdateTimestamp };
+            console.log(`Marqueur créé pour ${cyclist_id}`);
+            // Optionnel : Panoramiquer/Zoomer sur le premier marqueur ajouté ?
+            // if (Object.keys(cyclistMarkers).length === 1) map.setView(latLng, 13);
+        }
+    }
+
+    // --- Fonction pour vérifier périodiquement l'inactivité ---
+    function checkInactiveMarkers() {
+        const now = Date.now();
+        Object.keys(cyclistMarkers).forEach(id => {
+            const data = cyclistMarkers[id];
+            const minutesSinceUpdate = (now - data.lastUpdate) / (1000 * 60);
+            const isInactive = minutesSinceUpdate > MAX_INACTIVE_MINUTES;
+
+            // Met à jour l'icône si l'état d'activité change
+            const currentIconClass = data.marker.options.icon.options.html;
+            const needsUpdate = (isInactive && !currentIconClass.includes('inactive')) ||
+                               (!isInactive && currentIconClass.includes('inactive'));
+
+            if (needsUpdate) {
+                 const name = data.marker.options.title; // Récupérer le nom/id stocké dans title
+                 const initiale = name.charAt(0).toUpperCase();
+                 const markerHtml = `<div class="cyclist-marker-icon ${isInactive ? 'inactive' : ''}">${initiale}</div>`;
+                 const newIcon = L.divIcon({
+                        html: markerHtml,
+                        className: '',
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12],
+                        popupAnchor: [0, -12]
+                 });
+                 data.marker.setIcon(newIcon);
+                 // Mettre à jour le popup aussi pour refléter l'état
+                  const popupContent = `<b>${name}</b><br>
+                              <span>Dernière MàJ: ${new Date(data.lastUpdate).toLocaleTimeString()}
+                              ${isInactive ? ' (Inactif)' : ''}</span>`;
+                 data.marker.getPopup().setContent(popupContent);
+                 console.log(`Statut inactivité mis à jour pour ${id}`);
+            }
+        });
+    }
+
+    // Lancer la vérification d'inactivité toutes les minutes
+    setInterval(checkInactiveMarkers, 60 * 1000);
+
+
+    // --- Chargement initial des positions ---
+    async function fetchInitialLocations() {
+        console.log("Chargement positions initiales...");
+        try {
+            const { data, error } = await supabase
+                .from('locations_cyclistes')
+                .select('*'); // Prend toutes les colonnes
+
+            if (error) throw error;
+
+            console.log(`Positions initiales reçues (${data.length})`);
+            data.forEach(cyclist => updateMarker(cyclist));
+            console.log("Marqueurs initiaux placés.");
+            checkInactiveMarkers(); // Vérifier inactivité après chargement initial
+
+        } catch (error) {
+            console.error("Erreur chargement initial:", error.message);
+            alert("Erreur lors du chargement des positions initiales.");
+        }
+    }
+
+    // --- Écoute des mises à jour temps réel ---
+    function subscribeToRealtimeUpdates() {
+        console.log("Abonnement aux mises à jour temps réel...");
+        const channel = supabase.channel('public-locations-updates') // Nom arbitraire du canal
+            .on(
+                'postgres_changes',
+                {
+                    event: '*', // Écoute INSERT, UPDATE, DELETE
+                    schema: 'public',
+                    table: 'locations_cyclistes'
+                },
+                (payload) => {
+                    console.log('Changement reçu via Realtime:', payload);
+                    if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+                        updateMarker(payload.new);
+                    } else if (payload.eventType === 'DELETE') {
+                        // Supprimer le marqueur si l'entrée est supprimée dans Supabase
+                        const deletedId = payload.old?.cyclist_id;
+                        if (deletedId && cyclistMarkers[deletedId]) {
+                            map.removeLayer(cyclistMarkers[deletedId].marker);
+                            delete cyclistMarkers[deletedId];
+                            console.log(`Marqueur supprimé pour ${deletedId}`);
+                        }
+                    }
+                }
+            )
+            .subscribe((status, err) => {
+                if (status === 'SUBSCRIBED') {
+                    console.log('Connecté au canal Realtime ! Chargement initial...');
+                    // Charger les données initiales une fois connecté pour éviter les manques
+                    fetchInitialLocations();
+                } else if (status === 'CHANNEL_ERROR') {
+                     console.error("Erreur de connexion au canal temps réel:", err);
+                     alert("La connexion temps réel a échoué. La carte ne se mettra peut-être pas à jour.");
+                } else if (status === 'TIMED_OUT') {
+                     console.warn("Timeout de connexion au canal temps réel. Tentative de reconnexion...");
+                } else {
+                     console.log("Statut canal Realtime:", status);
+                }
+            });
+
+        // Gérer la désinscription propre (pas essentiel mais bonne pratique)
+         window.addEventListener('onunload', () => {
+            console.log("Désabonnement du canal Realtime...");
+            supabase.removeChannel(channel);
+         });
+    }
+
+    // --- Démarrage ---
+    if (supabase) { // Démarrer seulement si Supabase est initialisé
+        subscribeToRealtimeUpdates();
+    }
+
+</script>
+
+</body>
+</html>

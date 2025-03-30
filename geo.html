@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi GPS - La Gueuleton Express</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/additional.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <style>
+        /* Styles spécifiques pour la page de suivi GPS */
+        #map-container {
+            width: 100%;
+            height: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-width: 250px;
+            color: #333;
+        }
+        
+        .info-panel h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .legend {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 10px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        
+        .track-info {
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #555;
+        }
+        
+        .toggle-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.9em;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-button:hover {
+            background-color: #005A9E;
+            transform: translateY(-2px);
+        }
+        
+        /* Style pour le profil d'élévation */
+        #elevation-profile {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+            display: none;
+        }
+        
+        #elevation-profile img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Style pour les boutons de contrôle */
+        .control-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .control-button {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            font-size: 1.2em;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .control-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        
+        /* Style pour les marqueurs */
+        .cyclist-marker-icon {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            line-height: 20px;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            font-size: 0.8em;
+        }
+        
+        .cyclist-marker-icon.inactive {
+            background-color: #95a5a6;
+            opacity: 0.7;
+        }
+        
+        .start-finish-icon {
+            font-size: 1.8em;
+            background: none;
+            border: none;
+            width: auto !important;
+            height: auto !important;
+        }
+        
+        .start-finish-icon .emoji {
+            text-shadow: 0 0 3px white;
+        }
+        
+        /* Style pour les popups Leaflet */
+        .leaflet-popup-content-wrapper {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+        
+        .leaflet-popup-content {
+            font-size: 1em;
+            line-height: 1.4;
+            margin: 10px !important;
+            min-width: 150px;
+            color: #333;
+        }
+        
+        .leaflet-popup-content b {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .leaflet-popup-content span {
+            font-size: 0.85em;
+            color: #555;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #map-container {
+                height: 450px;
+            }
+            
+            .info-panel {
+                max-width: 200px;
+                padding: 10px;
+                font-size: 0.9em;
+            }
+            
+            #elevation-profile {
+                width: 90%;
+                height: 120px;
+            }
+            
+            .control-buttons {
+                bottom: 10px;
+                right: 10px;
+            }
+            
+            .control-button {
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .info-panel {
+                top: 10px;
+                right: 10px;
+                max-width: 150px;
+                font-size: 0.8em;
+            }
+            
+            .toggle-button {
+                padding: 5px 10px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-logos">
+                    <img src="images/WhatsApp Image 2025-03-28 at 17.33.40.jpeg" alt="BBC Logo" class="logo logo-bbc">
+                    <span class="logo-separator">×</span>
+                    <img src="images/gueuleton.png" alt="Gueuleton Logo" class="logo logo-gueuleton">
+                </div>
+                <div class="title-group">
+                    <h1 class="main-title">La Gueuleton Express</h1>
+                    <h2 class="subtitle">Suivi GPS en Temps Réel</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="rainbow-separator-line"></div>
+    
+    <nav class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="home.html#parcours">PARCOURS</a></li>
+                <li><a href="home.html#defis">LES DÉFIS</a></li>
+                <li><a href="tracker.html">TRACKER GPS</a></li>
+                <li><a href="map.html">CARTE SIMPLE</a></li>
+                <li><a href="geo.html">CARTE COMPLÈTE</a></li>
+                <li><a href="home.html#gueuleton">LE GUEULETON</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section>
+            <div class="section-title">Suivi GPS en Temps Réel</div>
+            <p class="section-subtitle">Suivez en direct la progression des cyclistes sur le parcours de La Gueuleton Express</p>
+            
+            <div id="map-container">
+                <div id="map"></div>
+                
+                <!-- Panneau d'information -->
+                <div class="info-panel">
+                    <h3>Informations</h3>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #0077C8;"></div>
+                            <span>Cyclistes actifs</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #95a5a6;"></div>
+                            <span>Cyclistes inactifs</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #E67E22;"></div>
+                            <span>Parcours</span>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <p>Distance: <span id="track-distance">Chargement...</span></p>
+                        <p>Dénivelé: <span id="track-elevation">Chargement...</span></p>
+                    </div>
+                    <a href="elevation_profile.png" target="_blank" class="toggle-button" style="display: inline-block; text-decoration: none;">Voir le profil d'élévation</a>
+                </div>
+                
+                <!-- Aucun élément supplémentaire nécessaire ici -->
+                
+                <!-- Boutons de contrôle -->
+                <div class="control-buttons">
+                    <button id="center-track" class="control-button" title="Centrer sur le parcours">🔍</button>
+                    <button id="center-riders" class="control-button" title="Centrer sur les cyclistes">👥</button>
+                    <button id="refresh-data" class="control-button" title="Rafraîchir les données">🔄</button>
+                </div>
+            </div>
+            
+            <div class="gpx-download-section">
+                <a href="course.gpx" download="La_Gueuleton_Express.gpx" class="gpx-download-link">
+                    <i class="fas fa-download"></i> Télécharger le fichier GPX
+                </a>
+                <p class="gpx-help-text">Importez ce fichier dans votre GPS ou application mobile pour suivre le parcours</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="main-footer">
+        <div class="container">
+            <p>Organisé par le BBC (Bicyclette Buvette Club)</p>
+            <p class="footer-punchline">À vélo pour le plaisir, à table pour les excès !</p>
+            <p>Contact :</p>
+            <div class="credits">
+                <p>Site créé par Orchestra Intelligence, mail: <a href="mailto:sales@orchestraintelligence.fr"><i class="fas fa-envelope"></i>sales@orchestraintelligence.fr</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- JS pour parser les fichiers GPX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    <!-- JS Supabase V2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // --- CONFIGURATION ---
+        const SUPABASE_URL = 'https://jmqvuvsjlisguoyznhxe.supabase.co'; // URL Supabase
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImptcXZ1dnNqbGlzZ3VveXpuaHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzMTI0NDUsImV4cCI6MjA1ODg4ODQ0NX0.OcI8XIRrWgi3isajiL1cQRgqaVXf30fFNuIAd9U9CkU'; // Clé anon public
+        const MAPTILER_API_KEY = 'WgNF86y7GrgqVep8isPi'; // Clé MapTiler
+        
+        const GPX_FILE_PATH = 'js/GPX/La_Gueuleton_Express (1).gpx'; // Chemin vers le fichier GPX
+        
+        const CASTRES_COORDS = [43.606, 2.24];
+        const CASTELNAUDARY_COORDS = [43.318, 1.795];
+        const CENTER_MAP_COORDS = [43.46, 2.0]; // Entre les deux villes
+        const INITIAL_ZOOM = 10;
+        const MAX_INACTIVE_MINUTES = 15; // Marqueur devient 'inactif' après X minutes sans update
+        // --------------------
+
+        // Initialisation Supabase
+        let supabase;
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Supabase Client Initialisé pour la carte.");
+        } catch(e) {
+            console.error("Erreur initialisation Supabase:", e);
+            alert("Impossible d'initialiser la connexion à la base de données.");
+            // Bloquer le reste du script si Supabase ne s'initie pas
+            throw new Error("Supabase init failed");
+        }
+
+        // Initialisation de la carte Leaflet
+        const map = L.map('map', {
+            // zoomControl: false // Optionnel: cacher les boutons +/- zoom par défaut
+        }).setView(CENTER_MAP_COORDS, INITIAL_ZOOM);
+
+        // Ajout du fond de carte design (MapTiler Streets)
+        L.tileLayer(
+            `https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_API_KEY}`, {
+                tileSize: 512,
+                zoomOffset: -1,
+                minZoom: 1,
+                attribution: `<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>`,
+                crossOrigin: true
+            }
+        ).addTo(map);
+
+        // Stockage des marqueurs { cyclist_id: { marker: L.Marker, lastUpdate: timestamp } }
+        let cyclistMarkers = {};
+        
+        // Variable pour stocker la trace GPX
+        let gpxTrack = null;
+
+        // --- Icônes Personnalisées ---
+        // Icône Départ (Vélo)
+        const startIcon = L.divIcon({
+            html: '<div class="emoji">🚴</div>',
+            className: 'start-finish-icon',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30] // Pointe en bas au centre
+        });
+
+        // Icône Arrivée (Cassoulet !)
+        const finishIcon = L.divIcon({
+            html: '<div class="emoji">🍲</div>', // Ou 🏆
+            className: 'start-finish-icon',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30]
+        });
+
+        // Marqueurs Départ et Arrivée
+        L.marker(CASTRES_COORDS, { icon: startIcon, title: "Départ : Castres" })
+         .addTo(map).bindPopup("<b>Départ : Castres</b><br>Bon courage !");
+        L.marker(CASTELNAUDARY_COORDS, { icon: finishIcon, title: "Arrivée : Castelnaudary" })
+         .addTo(map).bindPopup("<b>Arrivée : Castelnaudary</b><br>Le Gueuleton vous attend !");
+
+        // --- Fonction pour créer/mettre à jour un marqueur de cycliste ---
+        function updateMarker(cyclistData) {
+            const { cyclist_id, name, latitude, longitude, last_updated } = cyclistData;
+
+            if (!latitude || !longitude || !cyclist_id) {
+                console.warn("Données cycliste incomplètes reçues:", cyclistData);
+                return;
+            }
+
+            const latLng = L.latLng(latitude, longitude);
+            const lastUpdateTimestamp = new Date(last_updated).getTime();
+            const now = Date.now();
+            const minutesSinceUpdate = (now - lastUpdateTimestamp) / (1000 * 60);
+            const isInactive = minutesSinceUpdate > MAX_INACTIVE_MINUTES;
+
+            const popupContent = `<b>${name || cyclist_id}</b><br>
+                                  <span>Dernière MàJ: ${new Date(last_updated).toLocaleTimeString()}
+                                  ${isInactive ? ' (Inactif)' : ''}</span>`;
+
+            // Utilisation de DivIcon pour afficher l'initiale ou un petit indicateur
+            const initiale = (name || cyclist_id).charAt(0).toUpperCase();
+            const markerHtml = `<div class="cyclist-marker-icon ${isInactive ? 'inactive' : ''}">${initiale}</div>`;
+            const customIcon = L.divIcon({
+                html: markerHtml,
+                className: '', // Ne pas ajouter de classe par défaut de Leaflet
+                iconSize: [24, 24],
+                iconAnchor: [12, 12], // Centré
+                popupAnchor: [0, -12] // Popup au dessus
+            });
+
+
+            if (cyclistMarkers[cyclist_id]) {
+                // Marqueur existant : mise à jour position, popup et style icône
+                const existing = cyclistMarkers[cyclist_id];
+                existing.marker.setLatLng(latLng);
+                existing.marker.setIcon(customIcon); // Mise à jour style (actif/inactif)
+                existing.marker.getPopup().setContent(popupContent);
+                existing.lastUpdate = lastUpdateTimestamp;
+                console.log(`Marqueur mis à jour pour ${cyclist_id}`);
+
+            } else {
+                // Nouveau marqueur
+                const marker = L.marker(latLng, { icon: customIcon, title: name || cyclist_id })
+                                .addTo(map)
+                                .bindPopup(popupContent);
+
+                cyclistMarkers[cyclist_id] = { marker: marker, lastUpdate: lastUpdateTimestamp };
+                console.log(`Marqueur créé pour ${cyclist_id}`);
+                // Optionnel : Panoramiquer/Zoomer sur le premier marqueur ajouté ?
+                // if (Object.keys(cyclistMarkers).length === 1) map.setView(latLng, 13);
+            }
+        }
+
+        // --- Fonction pour vérifier périodiquement l'inactivité ---
+        function checkInactiveMarkers() {
+            const now = Date.now();
+            Object.keys(cyclistMarkers).forEach(id => {
+                const data = cyclistMarkers[id];
+                const minutesSinceUpdate = (now - data.lastUpdate) / (1000 * 60);
+                const isInactive = minutesSinceUpdate > MAX_INACTIVE_MINUTES;
+
+                // Met à jour l'icône si l'état d'activité change
+                const currentIconClass = data.marker.options.icon.options.html;
+                const needsUpdate = (isInactive && !currentIconClass.includes('inactive')) ||
+                                   (!isInactive && currentIconClass.includes('inactive'));
+
+                if (needsUpdate) {
+                     const name = data.marker.options.title; // Récupérer le nom/id stocké dans title
+                     const initiale = name.charAt(0).toUpperCase();
+                     const markerHtml = `<div class="cyclist-marker-icon ${isInactive ? 'inactive' : ''}">${initiale}</div>`;
+                     const newIcon = L.divIcon({
+                            html: markerHtml,
+                            className: '',
+                            iconSize: [24, 24],
+                            iconAnchor: [12, 12],
+                            popupAnchor: [0, -12]
+                     });
+                     data.marker.setIcon(newIcon);
+                     // Mettre à jour le popup aussi pour refléter l'état
+                      const popupContent = `<b>${name}</b><br>
+                                  <span>Dernière MàJ: ${new Date(data.lastUpdate).toLocaleTimeString()}
+                                  ${isInactive ? ' (Inactif)' : ''}</span>`;
+                     data.marker.getPopup().setContent(popupContent);
+                     console.log(`Statut inactivité mis à jour pour ${id}`);
+                }
+            });
+        }
+
+        // Lancer la vérification d'inactivité toutes les minutes
+        setInterval(checkInactiveMarkers, 60 * 1000);
+
+        // --- Chargement initial des positions ---
+        async function fetchInitialLocations() {
+            console.log("Chargement positions initiales...");
+            try {
+                const { data, error } = await supabase
+                    .from('locations_cyclistes')
+                    .select('*'); // Prend toutes les colonnes
+
+                if (error) throw error;
+
+                console.log(`Positions initiales reçues (${data.length})`);
+                data.forEach(cyclist => updateMarker(cyclist));
+                console.log("Marqueurs initiaux placés.");
+                checkInactiveMarkers(); // Vérifier inactivité après chargement initial
+
+            } catch (error) {
+                console.error("Erreur chargement initial:", error.message);
+                alert("Erreur lors du chargement des positions initiales.");
+            }
+        }
+
+        // --- Écoute des mises à jour temps réel ---
+        function subscribeToRealtimeUpdates() {
+            console.log("Abonnement aux mises à jour temps réel...");
+            const channel = supabase.channel('public-locations-updates') // Nom arbitraire du canal
+                .on(
+                    'postgres_changes',
+                    {
+                        event: '*', // Écoute INSERT, UPDATE, DELETE
+                        schema: 'public',
+                        table: 'locations_cyclistes'
+                    },
+                    (payload) => {
+                        console.log('Changement reçu via Realtime:', payload);
+                        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+                            updateMarker(payload.new);
+                        } else if (payload.eventType === 'DELETE') {
+                            // Supprimer le marqueur si l'entrée est supprimée dans Supabase
+                            const deletedId = payload.old?.cyclist_id;
+                            if (deletedId && cyclistMarkers[deletedId]) {
+                                map.removeLayer(cyclistMarkers[deletedId].marker);
+                                delete cyclistMarkers[deletedId];
+                                console.log(`Marqueur supprimé pour ${deletedId}`);
+                            }
+                        }
+                    }
+                )
+                .subscribe((status, err) => {
+                    if (status === 'SUBSCRIBED') {
+                        console.log('Connecté au canal Realtime ! Chargement initial...');
+                        // Charger les données initiales une fois connecté pour éviter les manques
+                        fetchInitialLocations();
+                    } else if (status === 'CHANNEL_ERROR') {
+                         console.error("Erreur de connexion au canal temps réel:", err);
+                         alert("La connexion temps réel a échoué. La carte ne se mettra peut-être pas à jour.");
+                    } else if (status === 'TIMED_OUT') {
+                         console.warn("Timeout de connexion au canal temps réel. Tentative de reconnexion...");
+                    } else {
+                         console.log("Statut canal Realtime:", status);
+                    }
+                });
+
+            // Gérer la désinscription propre (pas essentiel mais bonne pratique)
+             window.addEventListener('onunload', () => {
+                console.log("Désabonnement du canal Realtime...");
+                supabase.removeChannel(channel);
+             });
+        }
+        
+        // --- Chargement et affichage du parcours GPX ---
+        function loadGPXTrack() {
+            console.log("Chargement du parcours GPX...");
+            
+            // Créer une nouvelle instance GPX
+            gpxTrack = new L.GPX(GPX_FILE_PATH, {
+                async: true,
+                polyline_options: {
+                    color: '#E67E22',
+                    weight: 5,
+                    opacity: 0.7
+                },
+                marker_options: {
+                    startIconUrl: null,  // Désactiver les icônes par défaut
+                    endIconUrl: null,
+                    shadowUrl: null
+                }
+            });
+            
+            gpxTrack.on('loaded', function(e) {
+                const track = e.target;
+                
+                // Mettre à jour les informations du parcours
+                document.getElementById('track-distance').textContent = 
+                    (track.get_distance() / 1000).toFixed(1) + ' km';
+                document.getElementById('track-elevation').textContent = 
+                    track.get_elevation_gain().toFixed(0) + ' m';
+                
+                // Ajuster la vue de la carte pour montrer tout le parcours
+                map.fitBounds(track.getBounds());
+                
+                console.log("Parcours GPX chargé avec succès");
+            });
+            
+            gpxTrack.on('error', function(e) {
+                console.error("Erreur lors du chargement du parcours GPX:", e);
+                document.getElementById('track-distance').textContent = "Erreur";
+                document.getElementById('track-elevation').textContent = "Erreur";
+            });
+            
+            // Ajouter le parcours à la carte
+            gpxTrack.addTo(map);
+        }
+        
+        // --- Gestion des boutons et interactions ---
+        
+        document.getElementById('center-track').addEventListener('click', function() {
+            if (gpxTrack && gpxTrack.getBounds) {
+                map.fitBounds(gpxTrack.getBounds());
+            }
+        });
+        
+        document.getElementById('center-riders').addEventListener('click', function() {
+            // Créer un groupe de tous les marqueurs de cyclistes
+            const markers = Object.values(cyclistMarkers).map(m => m.marker);
+            
+            if (markers.length > 0) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds(), { padding: [50, 50] });
+            } else {
+                alert("Aucun cycliste actif sur la carte");
+            }
+        });
+        
+        document.getElementById('refresh-data').addEventListener('click', function() {
+            fetchInitialLocations();
+        });
+
+        // --- Démarrage ---
+        if (supabase) { // Démarrer seulement si Supabase est initialisé
+            subscribeToRealtimeUpdates();
+            loadGPXTrack();
+        }
+    </script>
+</body>
+</html>

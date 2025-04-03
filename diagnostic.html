@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic - La Gueuleton Express</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #333; }
+        .success { color: green; }
+        .error { color: red; }
+        .resource { margin-bottom: 10px; padding: 5px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Diagnostic des ressources</h1>
+    <div id="results"></div>
+
+    <script>
+        const resources = [
+            { name: "Page d'accueil", url: "index.html" },
+            { name: "Page principale", url: "home.html" },
+            { name: "Carte", url: "map.html" },
+            { name: "Tracker", url: "tracker.html" },
+            { name: "Logo BBC", url: "images/logo_bbc.jpeg" },
+            { name: "Logo Gueuleton", url: "images/gueuleton.png" },
+            { name: "CSS Splash", url: "css/splash.css" },
+            { name: "CSS Style", url: "css/style.css" },
+            { name: "CSS Mobile", url: "css/mobile.css" },
+            { name: "Fichier GPX", url: "js/GPX/La_Gueuleton_Express_1.gpx" }
+        ];
+
+        const resultsDiv = document.getElementById('results');
+
+        async function checkResource(resource) {
+            try {
+                const response = await fetch(resource.url);
+                const status = response.ok ? 'success' : 'error';
+                const statusText = response.ok ? 'OK' : `Erreur: ${response.status} ${response.statusText}`;
+                return `<div class="resource">
+                    <strong>${resource.name}</strong>: <span class="${status}">${statusText}</span>
+                    <br>URL: ${resource.url}
+                </div>`;
+            } catch (error) {
+                return `<div class="resource">
+                    <strong>${resource.name}</strong>: <span class="error">Erreur: ${error.message}</span>
+                    <br>URL: ${resource.url}
+                </div>`;
+            }
+        }
+
+        async function runDiagnostic() {
+            resultsDiv.innerHTML = '<p>Vérification des ressources...</p>';
+            
+            const results = await Promise.all(resources.map(checkResource));
+            resultsDiv.innerHTML = results.join('');
+        }
+
+        // Exécuter le diagnostic au chargement de la page
+        window.onload = runDiagnostic;
+    </script>
+</body>
+</html>

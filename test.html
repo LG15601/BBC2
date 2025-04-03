@@ -3,23 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Page</title>
+    <title>La Gueuleton Express - Navigation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
             line-height: 1.6;
+            background-color: #f5f5f5;
         }
         h1 {
-            color: #333;
+            color: #E67E22;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .links {
+            margin-top: 20px;
+        }
+        .links a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 15px;
+            background-color: #E67E22;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .links a:hover {
+            background-color: #D35400;
+        }
+        .note {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #E67E22;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>Test Page</h1>
-    <p>This is a simple test page to check if GitHub Pages is working correctly.</p>
-    <p>Current time: <span id="current-time"></span></p>
-    
+    <div class="container">
+        <h1>La Gueuleton Express</h1>
+        <p>Bienvenue sur le site de La Gueuleton Express. Utilisez les liens ci-dessous pour naviguer :</p>
+
+        <div class="links">
+            <a href="index.html">Page d'accueil</a>
+            <a href="home.html">Page principale</a>
+            <a href="map.html">Carte en temps réel</a>
+            <a href="tracker.html">Tracker GPS</a>
+            <a href="geo.html">Carte complète avec parcours</a>
+        </div>
+
+        <div class="note">
+            <p><strong>Note :</strong> Si certaines pages ne s'affichent pas correctement, essayez de :</p>
+            <ul>
+                <li>Vider le cache de votre navigateur</li>
+                <li>Utiliser une fenêtre de navigation privée</li>
+                <li>Essayer un autre navigateur</li>
+            </ul>
+            <p>Heure actuelle : <span id="current-time"></span></p>
+        </div>
+    </div>
+
     <script>
         document.getElementById('current-time').textContent = new Date().toLocaleString();
     </script>

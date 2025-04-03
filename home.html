@@ -262,6 +262,145 @@
             <p class="prono-footer">* Cotes établies par le PMU des Cammazes, après la troisième bière</p>
         </section>
 
+        <section id="votes">
+            <div class="section-title">Votez pour vos champions !</div>
+            <p class="section-subtitle">Qui mérite les différents maillots ? À vous de voter !</p>
+
+            <div class="voting-container">
+                <!-- Maillot à pois -->
+                <div class="voting-card pois-card">
+                    <div class="voting-header">
+                        <div class="maillot maillot-pois"></div>
+                        <h3>Maillot à Pois</h3>
+                        <p>Meilleur grimpeur</p>
+                    </div>
+                    <div class="voting-options">
+                        <div class="voting-option">
+                            <input type="radio" name="pois" id="pois-1" value="Pierre">
+                            <label for="pois-1">Pierre</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="pois" id="pois-2" value="Les Triathètes">
+                            <label for="pois-2">Les Triathètes</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="pois" id="pois-3" value="Guillaume A">
+                            <label for="pois-3">Guillaume A</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="pois" id="pois-4" value="Autre">
+                            <label for="pois-4">Autre</label>
+                            <input type="text" class="other-input" id="pois-other" placeholder="Précisez...">
+                        </div>
+                    </div>
+                    <button class="vote-btn pois-btn" data-type="pois">Voter</button>
+                    <div class="vote-results" id="pois-results">
+                        <h4>Résultats</h4>
+                        <div class="results-container"></div>
+                    </div>
+                </div>
+
+                <!-- Maillot rouge -->
+                <div class="voting-card red-card">
+                    <div class="voting-header">
+                        <div class="maillot maillot-rouge"></div>
+                        <h3>Maillot Rouge</h3>
+                        <p>Plus combatif</p>
+                    </div>
+                    <div class="voting-options">
+                        <div class="voting-option">
+                            <input type="radio" name="red" id="red-1" value="Clem E">
+                            <label for="red-1">Clem E</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="red" id="red-2" value="Charly T">
+                            <label for="red-2">Charly T</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="red" id="red-3" value="Aimé E">
+                            <label for="red-3">Aimé E</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="red" id="red-4" value="Autre">
+                            <label for="red-4">Autre</label>
+                            <input type="text" class="other-input" id="red-other" placeholder="Précisez...">
+                        </div>
+                    </div>
+                    <button class="vote-btn red-btn" data-type="red">Voter</button>
+                    <div class="vote-results" id="red-results">
+                        <h4>Résultats</h4>
+                        <div class="results-container"></div>
+                    </div>
+                </div>
+
+                <!-- Maillot jaune -->
+                <div class="voting-card yellow-card">
+                    <div class="voting-header">
+                        <div class="maillot maillot-jaune"></div>
+                        <h3>Maillot Jaune</h3>
+                        <p>Roi de la table</p>
+                    </div>
+                    <div class="voting-options">
+                        <div class="voting-option">
+                            <input type="radio" name="yellow" id="yellow-1" value="Guillaume M">
+                            <label for="yellow-1">Guillaume M</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="yellow" id="yellow-2" value="Les Bretons">
+                            <label for="yellow-2">Les Bretons</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="yellow" id="yellow-3" value="Ludo G">
+                            <label for="yellow-3">Ludo G</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="yellow" id="yellow-4" value="Autre">
+                            <label for="yellow-4">Autre</label>
+                            <input type="text" class="other-input" id="yellow-other" placeholder="Précisez...">
+                        </div>
+                    </div>
+                    <button class="vote-btn yellow-btn" data-type="yellow">Voter</button>
+                    <div class="vote-results" id="yellow-results">
+                        <h4>Résultats</h4>
+                        <div class="results-container"></div>
+                    </div>
+                </div>
+
+                <!-- Maillot blanc -->
+                <div class="voting-card white-card">
+                    <div class="voting-header">
+                        <div class="maillot maillot-blanc"></div>
+                        <h3>Maillot Blanc</h3>
+                        <p>Meilleur vieux</p>
+                    </div>
+                    <div class="voting-options">
+                        <div class="voting-option">
+                            <input type="radio" name="white" id="white-1" value="Jean-Claude">
+                            <label for="white-1">Jean-Claude</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="white" id="white-2" value="Bernard">
+                            <label for="white-2">Bernard</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="white" id="white-3" value="Michel">
+                            <label for="white-3">Michel</label>
+                        </div>
+                        <div class="voting-option">
+                            <input type="radio" name="white" id="white-4" value="Autre">
+                            <label for="white-4">Autre</label>
+                            <input type="text" class="other-input" id="white-other" placeholder="Précisez...">
+                        </div>
+                    </div>
+                    <button class="vote-btn white-btn" data-type="white">Voter</button>
+                    <div class="vote-results" id="white-results">
+                        <h4>Résultats</h4>
+                        <div class="results-container"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="regles">
             <div class="section-title">Règles & Sécurité</div>
             <div class="rules-container">
@@ -340,5 +479,6 @@
     <script src="js/script.js"></script>
     <script src="js/avatars.js"></script>
     <script src="js/weather.js"></script> <!-- Ajout du script météo -->
+    <script src="js/votes.js"></script> <!-- Ajout du script de votes -->
 </body>
 </html>

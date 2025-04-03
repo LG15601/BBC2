@@ -677,7 +677,7 @@ section {
   .title h1 {
     font-size: 2.5rem; /* Réduire taille titre principal */
   }
-  
+
   .title h2 {
     font-size: 1.3rem; /* Réduire taille sous-titre */
   }
@@ -687,7 +687,7 @@ section {
     flex-direction: column;
     align-items: center;
   }
-  
+
   nav ul li {
     margin: 8px 0; /* Réduire marge verticale */
   }
@@ -860,4 +860,186 @@ section {
 .btn:hover {
   background-color: var(--dark-color);
   transform: scale(1.05);
+}
+
+/* Système de votes pour les maillots */
+:root {
+  --white-color: #ffffff; /* Couleur pour le maillot blanc */
+}
+
+.voting-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.voting-card {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding-bottom: 15px;
+}
+
+.voting-header {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.voting-header h3 {
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.voting-header p {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.voting-options {
+  padding: 15px;
+}
+
+.voting-option {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.voting-option input[type="radio"] {
+  margin-right: 10px;
+}
+
+.voting-option label {
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.other-input {
+  margin-top: 5px;
+  margin-left: 25px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: calc(100% - 25px);
+  display: none;
+}
+
+.voting-option input[value="Autre"]:checked ~ .other-input {
+  display: block;
+}
+
+.vote-btn {
+  display: block;
+  margin: 0 15px 15px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pois-btn {
+  background-color: var(--pois-color);
+}
+
+.red-btn {
+  background-color: var(--red-color);
+}
+
+.yellow-btn {
+  background-color: var(--yellow-color);
+  color: #333;
+}
+
+.white-btn {
+  background-color: var(--white-color);
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.vote-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.vote-results {
+  margin: 15px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  display: none;
+}
+
+.vote-results h4 {
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.results-container {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.result-item {
+  margin-bottom: 8px;
+}
+
+.result-bar-container {
+  height: 8px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.result-bar {
+  height: 100%;
+}
+
+.result-bar.pois {
+  background-color: var(--pois-color);
+}
+
+.result-bar.red {
+  background-color: var(--red-color);
+}
+
+.result-bar.yellow {
+  background-color: var(--yellow-color);
+}
+
+.result-bar.white {
+  background-color: #ddd;
+}
+
+/* Maillot blanc */
+.maillot-blanc {
+  background-color: white;
+  border: 1px solid #ddd;
+}
+
+.white-card .voting-header {
+  border-top: 5px solid #ddd;
+}
+
+/* Styles pour les cartes de vote */
+.pois-card .voting-header {
+  border-top: 5px solid var(--pois-color);
+}
+
+.red-card .voting-header {
+  border-top: 5px solid var(--red-color);
+}
+
+.yellow-card .voting-header {
+  border-top: 5px solid var(--yellow-color);
 }

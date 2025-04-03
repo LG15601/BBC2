@@ -3,88 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Gueuleton Express - Accueil</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>La Gueuleton Express - BBC (Bicyclette Buvette Club)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #E67E22; /* Orange Gueuleton */
-            --secondary-color: #009639; /* Vert */
-            --accent-color: #FFCE00; /* Jaune */
-            --dark-color: #011627; /* Noir/Bleu foncé */
-            --light-color: #fdfffc; /* Blanc cassé */
-            --red-color: #E40521; /* Rouge */
-        }
-
+        /* --- Reset et Base --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-            position: relative;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        html, body {
             height: 100%;
-            background-image: url('images/infographie_parcours.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.05;
-            z-index: -1;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            background-color: #0a192f; /* Fond bleu foncé comme l'original */
+            color: #ffffff;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 30px;
-            position: relative;
-        }
-
-        .splash-container {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            padding: 40px;
-            margin-top: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .splash-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--accent-color), var(--red-color));
-        }
-
-        .logo-container {
+        main {
+            min-height: calc(100% - 10px);
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
+            padding: 30px 20px;
+        }
+
+        /* --- Conteneur principal --- */
+        .splash-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            margin: 20px auto;
+            padding: 30px;
+        }
+
+        /* --- Logos --- */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .logo {
-            max-width: 140px;
+            max-width: 100px;
             height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -93,201 +63,144 @@
         }
 
         .separator {
-            font-size: 28px;
-            margin: 0 20px;
-            color: #777;
+            font-size: 1.5em;
+            color: #ccc;
         }
 
+        /* --- Textes --- */
         .title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 3.5rem;
-            color: var(--primary-color);
-            text-align: center;
+            color: #ffffff;
             margin-bottom: 10px;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.1;
+            font-weight: normal;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .subtitle {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: var(--secondary-color);
-            text-align: center;
+            font-size: 2rem;
+            color: #FFD700; /* Couleur dorée */
             margin-bottom: 20px;
-            letter-spacing: 1px;
+            text-shadow: 0 0 2px #FFD700; /* Lueur dorée réduite */
         }
 
         .punchline {
-            font-style: italic;
-            text-align: center;
-            margin-bottom: 40px;
             font-size: 1.1rem;
-            color: #555;
-            padding: 0 20px;
+            color: #ffffff;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            text-shadow: 0 0 3px #fff, 0 0 5px #FFD700; /* Lueur blanche/dorée */
         }
 
-        .btn-container {
-            text-align: center;
-            margin: 40px 0;
-        }
-
+        /* --- Bouton --- */
         .enter-btn {
             display: inline-block;
-            background-color: var(--primary-color);
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #4fc3f7, #007bff); /* Dégradé bleu */
             color: white;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            padding: 15px 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
             text-decoration: none;
-            border-radius: 50px;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+            border: 2px solid #ffffff;
+            border-radius: 25px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .enter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+            margin-top: 20px;
         }
 
         .enter-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.6);
+            background: linear-gradient(45deg, #007bff, #4fc3f7); /* Inversion du dégradé */
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.6);
+            border-color: #FFD700; /* Bordure dorée au survol */
         }
 
-        .enter-btn:hover::before {
-            left: 100%;
-        }
-
-        .rainbow-separator {
-            height: 4px;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--accent-color), var(--red-color));
-            margin: 40px 0;
-            border-radius: 2px;
-        }
-
+        /* --- Navigation --- */
         .links-section {
-            margin-top: 30px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 600px;
         }
 
         .links-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 1.5rem;
-            color: var(--dark-color);
+            color: #FFD700;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .links-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
 
         .link-card {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .link-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         .link-card a {
             display: block;
-            padding: 20px;
+            padding: 15px;
             text-decoration: none;
-            color: #333;
+            color: #fff;
             text-align: center;
-            border-top: 4px solid var(--primary-color);
-        }
-
-        .link-card:nth-child(2) a {
-            border-top-color: var(--secondary-color);
-        }
-
-        .link-card:nth-child(3) a {
-            border-top-color: var(--accent-color);
-        }
-
-        .link-card:nth-child(4) a {
-            border-top-color: var(--red-color);
-        }
-
-        .link-card:nth-child(5) a {
-            border-top-color: var(--dark-color);
         }
 
         .link-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .link-card:nth-child(2) .link-icon {
-            color: var(--secondary-color);
-        }
-
-        .link-card:nth-child(3) .link-icon {
-            color: var(--accent-color);
-        }
-
-        .link-card:nth-child(4) .link-icon {
-            color: var(--red-color);
-        }
-
-        .link-card:nth-child(5) .link-icon {
-            color: var(--dark-color);
+            color: #FFD700;
         }
 
         .link-title {
             font-weight: bold;
             margin-bottom: 5px;
+            color: #fff;
         }
 
         .link-desc {
-            font-size: 0.85rem;
-            color: #777;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
+        /* --- Footer --- */
         footer {
+            height: 10px;
+            width: 100%;
+        }
+
+        .rainbow-line {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+        }
+
+        .footer-text {
             text-align: center;
-            margin-top: 50px;
-            padding: 20px 0;
-            color: #777;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
         }
 
-        .footer-punchline {
-            font-style: italic;
-            margin: 10px 0;
-            color: var(--primary-color);
-        }
-
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            .splash-container {
-                padding: 30px 20px;
-            }
-
             .title {
                 font-size: 2.5rem;
             }
@@ -297,9 +210,15 @@
             }
 
             .logo {
-                max-width: 100px;
+                max-width: 80px;
             }
 
+            .links-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
             .links-grid {
                 grid-template-columns: 1fr;
             }
@@ -307,7 +226,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <main>
         <div class="splash-container">
             <div class="logo-container">
                 <img src="images/logo_bbc.jpeg" alt="BBC Logo" class="logo">
@@ -317,13 +236,10 @@
 
             <h1 class="title">La GUEULETON EXPRESS</h1>
             <h2 class="subtitle">Édition 2025</h2>
+
             <p class="punchline">Bienvenue à La Gueuleton Express : La seule course où le 'ravito' est plus long que l'étape elle-même</p>
 
-            <div class="btn-container">
-                <a href="home.html" class="enter-btn">ENTRER DANS LA COURSE</a>
-            </div>
-
-            <div class="rainbow-separator"></div>
+            <a href="home.html" class="enter-btn">ENTRER DANS LA COURSE</a>
 
             <div class="links-section">
                 <h3 class="links-title">Accès rapide</h3>
@@ -370,11 +286,21 @@
                 </div>
             </div>
 
-            <footer>
-                <p>Organisé par le BBC (Bicyclette Buvette Club)</p>
-                <p class="footer-punchline">À vélo pour le plaisir, à table pour les excès !</p>
-            </footer>
+            <p class="footer-text">Organisé par le BBC (Bicyclette Buvette Club)</p>
+            <p class="footer-text">À vélo pour le plaisir, à table pour les excès !</p>
         </div>
-    </div>
+    </main>
+
+    <footer>
+        <div class="rainbow-line"></div>
+    </footer>
+
+    <script>
+        // Animation du bouton
+        document.querySelector('.enter-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'home.html';
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 # Gueuleton Express 2025 - Système de Suivi GPS en Temps Réel
 
+Site déployé sur GitHub Pages : [https://lg15601.github.io/BBC2/](https://lg15601.github.io/BBC2/)
+
 Ce projet permet de suivre en temps réel les cyclistes participant à l'événement "La Gueuleton Express" entre Castres et Castelnaudary. Il utilise Supabase comme backend pour stocker les positions GPS et une interface web pour afficher les positions sur une carte.
 
 ## Fonctionnalités

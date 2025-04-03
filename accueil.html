@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Gueuleton Express - Accueil</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #E67E22;
+            margin-bottom: 10px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .logo {
+            max-width: 120px;
+            height: auto;
+            margin: 0 10px;
+        }
+        .separator {
+            font-size: 24px;
+            margin: 0 15px;
+            color: #777;
+        }
+        .subtitle {
+            color: #555;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .punchline {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #E67E22;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #D35400;
+        }
+        .btn-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .links {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .links h3 {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .links li {
+            margin-bottom: 10px;
+        }
+        .links a {
+            display: block;
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+            border-left: 4px solid #E67E22;
+            transition: background-color 0.3s;
+        }
+        .links a:hover {
+            background-color: #eee;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="images/logo_bbc.jpeg" alt="BBC Logo" class="logo">
+                <span class="separator">×</span>
+                <img src="images/gueuleton.png" alt="Gueuleton Logo" class="logo">
+            </div>
+            <h1>La GUEULETON EXPRESS</h1>
+            <h2 class="subtitle">Édition 2025</h2>
+            <p class="punchline">Bienvenue à La Gueuleton Express : La seule course où le 'ravito' est plus long que l'étape elle-même</p>
+        </header>
+
+        <div class="btn-container">
+            <a href="home.html" class="btn">ENTRER DANS LA COURSE</a>
+        </div>
+
+        <div class="links">
+            <h3>Accès direct aux pages :</h3>
+            <ul>
+                <li><a href="index.html">Page d'accueil originale</a></li>
+                <li><a href="home.html">Page principale</a></li>
+                <li><a href="map.html">Carte en temps réel</a></li>
+                <li><a href="tracker.html">Tracker GPS</a></li>
+                <li><a href="geo.html">Carte complète avec parcours</a></li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Organisé par le BBC (Bicyclette Buvette Club)</p>
+            <p>À vélo pour le plaisir, à table pour les excès !</p>
+        </footer>
+    </div>
+</body>
+</html>

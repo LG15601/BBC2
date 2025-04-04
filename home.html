@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/gallery.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/mobile.css">
-    <link rel="stylesheet" href="css/weather-modern.css">
+    <link rel="stylesheet" href="css/weather-premium.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -36,17 +36,19 @@
 
     <nav class="main-nav">
         <div class="container">
-            <ul>
-                <li><a href="#parcours">PARCOURS</a></li>
-                <li><a href="#defis">LES DÉFIS</a></li>
-                <li><a href="#pronostics">PRONOSTICS</a></li>
-                <li><a href="#votes"><i class="fas fa-vote-yea"></i> VOTER</a></li>
-                <li><a href="#regles">RÈGLES</a></li>
-                <li><a href="#gueuleton">LE GUEULETON</a></li>
-                <li><a href="#telecharger">TÉLÉCHARGER GPX</a></li>
-                <li><a href="tracker.html">TRACKER</a></li>
-                <li><a href="map.html">CARTE LIVE</a></li>
-            </ul>
+            <div class="menu-container">
+                <ul class="menu-items">
+                    <li class="menu-item"><a href="#parcours"><i class="fas fa-route"></i><span>PARCOURS</span></a></li>
+                    <li class="menu-item"><a href="#defis"><i class="fas fa-trophy"></i><span>LES DÉFIS</span></a></li>
+                    <li class="menu-item"><a href="#pronostics"><i class="fas fa-chart-line"></i><span>PRONOSTICS</span></a></li>
+                    <li class="menu-item"><a href="#votes"><i class="fas fa-vote-yea"></i><span>VOTER</span></a></li>
+                    <li class="menu-item"><a href="#regles"><i class="fas fa-book"></i><span>RÈGLES</span></a></li>
+                    <li class="menu-item"><a href="#gueuleton"><i class="fas fa-utensils"></i><span>LE GUEULETON</span></a></li>
+                    <li class="menu-item"><a href="#telecharger"><i class="fas fa-download"></i><span>GPX</span></a></li>
+                    <li class="menu-item"><a href="tracker.html"><i class="fas fa-map-marker-alt"></i><span>TRACKER</span></a></li>
+                    <li class="menu-item"><a href="map.html"><i class="fas fa-map"></i><span>CARTE</span></a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -270,11 +272,26 @@
             <div class="voting-intro">
                 <div class="voting-intro-text">
                     <p><i class="fas fa-trophy"></i> Participez à l'élection des champions de cette édition ! Chaque vote compte pour déterminer qui remportera les prestigieux maillots de La Gueuleton Express.</p>
-                    <p><i class="fas fa-info-circle"></i> Les résultats seront annoncés lors du repas final chez Gueuleton. Votez pour vos favoris dans chaque catégorie !</p>
+                    <p><i class="fas fa-info-circle"></i> Les résultats seront annoncés lors du repas final chez Gueuleton.</p>
                 </div>
+                <button class="vote-toggle-btn" id="vote-toggle-btn">
+                    <i class="fas fa-vote-yea"></i> Ouvrir le système de vote
+                </button>
             </div>
 
-            <div class="voting-container">
+            <div class="voting-app-container" id="voting-app-container">
+                <div class="voting-app-header">
+                    <h3 class="app-title"><i class="fas fa-award"></i> Tour de Gueuleton - Élection des Champions</h3>
+                </div>
+
+                <div class="voting-tabs">
+                    <button class="tab-btn active" data-jersey="pois"><div class="tab-maillot maillot-pois"></div>Maillot à Pois</button>
+                    <button class="tab-btn" data-jersey="red"><div class="tab-maillot maillot-rouge"></div>Maillot Rouge</button>
+                    <button class="tab-btn" data-jersey="yellow"><div class="tab-maillot maillot-jaune"></div>Maillot Jaune</button>
+                    <button class="tab-btn" data-jersey="white"><div class="tab-maillot maillot-blanc"></div>Maillot Blanc</button>
+                </div>
+
+                <div class="voting-container">
                 <!-- Maillot à pois -->
                 <div class="voting-card pois-card">
                     <div class="voting-header">
@@ -283,26 +300,29 @@
                         <p>Meilleur grimpeur sur la montée des Cammazes</p>
                     </div>
                     <div class="voting-options">
-                        <div class="voting-option">
-                            <input type="radio" name="pois" id="pois-1" value="Pierre D">
-                            <label for="pois-1">Pierre D <span class="candidate-nickname">"La Chèvre"</span></label>
+                        <div class="select-container">
+                            <select name="pois" id="pois-select" class="candidate-select">
+                                <option value="" disabled selected>Choisissez un candidat...</option>
+                                <option value="Ludo G">Ludo G</option>
+                                <option value="Clem E">Clem E</option>
+                                <option value="Guillaume M">Guillaume M</option>
+                                <option value="Alex B">Alex B</option>
+                                <option value="Charly T">Charly T</option>
+                                <option value="Pierre V">Pierre V</option>
+                                <option value="Romain M">Romain M</option>
+                                <option value="Morgan P">Morgan P</option>
+                                <option value="Guillaume A">Guillaume A</option>
+                                <option value="Olivier G">Olivier G</option>
+                                <option value="Manu">Manu</option>
+                                <option value="Aimé E">Aimé E</option>
+                                <option value="Michel G">Michel G</option>
+                                <option value="Patrick L">Patrick L</option>
+                                <option value="Autre">Autre...</option>
+                            </select>
+                            <div class="select-arrow"><i class="fas fa-chevron-down"></i></div>
                         </div>
-                        <div class="voting-option">
-                            <input type="radio" name="pois" id="pois-2" value="Julien M">
-                            <label for="pois-2">Julien M <span class="candidate-nickname">"Le Triathète"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="pois" id="pois-3" value="Guillaume A">
-                            <label for="pois-3">Guillaume A <span class="candidate-nickname">"L'Aigle"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="pois" id="pois-4" value="Clément E">
-                            <label for="pois-4">Clément E <span class="candidate-nickname">"Le Sanglier"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="pois" id="pois-5" value="Autre">
-                            <label for="pois-5">Autre</label>
-                            <input type="text" class="other-input" id="pois-other" placeholder="Précisez...">
+                        <div class="other-input-container">
+                            <input type="text" class="other-input" id="pois-other" placeholder="Précisez votre candidat..." style="display: none;">
                         </div>
                     </div>
                     <button class="vote-btn pois-btn" data-type="pois"><i class="fas fa-vote-yea"></i> Voter</button>
@@ -320,26 +340,29 @@
                         <p>Plus combatif sur le parcours</p>
                     </div>
                     <div class="voting-options">
-                        <div class="voting-option">
-                            <input type="radio" name="red" id="red-1" value="Clément E">
-                            <label for="red-1">Clément E <span class="candidate-nickname">"Le Sanglier"</span></label>
+                        <div class="select-container">
+                            <select name="red" id="red-select" class="candidate-select">
+                                <option value="" disabled selected>Choisissez un candidat...</option>
+                                <option value="Ludo G">Ludo G</option>
+                                <option value="Clem E">Clem E</option>
+                                <option value="Guillaume M">Guillaume M</option>
+                                <option value="Alex B">Alex B</option>
+                                <option value="Charly T">Charly T</option>
+                                <option value="Pierre V">Pierre V</option>
+                                <option value="Romain M">Romain M</option>
+                                <option value="Morgan P">Morgan P</option>
+                                <option value="Guillaume A">Guillaume A</option>
+                                <option value="Olivier G">Olivier G</option>
+                                <option value="Manu">Manu</option>
+                                <option value="Aimé E">Aimé E</option>
+                                <option value="Michel G">Michel G</option>
+                                <option value="Patrick L">Patrick L</option>
+                                <option value="Autre">Autre...</option>
+                            </select>
+                            <div class="select-arrow"><i class="fas fa-chevron-down"></i></div>
                         </div>
-                        <div class="voting-option">
-                            <input type="radio" name="red" id="red-2" value="Charles T">
-                            <label for="red-2">Charles T <span class="candidate-nickname">"Le Panache"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="red" id="red-3" value="Aimé E">
-                            <label for="red-3">Aimé E <span class="candidate-nickname">"Le Vieux Briscard"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="red" id="red-4" value="Mathieu B">
-                            <label for="red-4">Mathieu B <span class="candidate-nickname">"Le Breton"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="red" id="red-5" value="Autre">
-                            <label for="red-5">Autre</label>
-                            <input type="text" class="other-input" id="red-other" placeholder="Précisez...">
+                        <div class="other-input-container">
+                            <input type="text" class="other-input" id="red-other" placeholder="Précisez votre candidat..." style="display: none;">
                         </div>
                     </div>
                     <button class="vote-btn red-btn" data-type="red"><i class="fas fa-vote-yea"></i> Voter</button>
@@ -357,26 +380,29 @@
                         <p>Roi de la table chez Gueuleton</p>
                     </div>
                     <div class="voting-options">
-                        <div class="voting-option">
-                            <input type="radio" name="yellow" id="yellow-1" value="Guillaume M">
-                            <label for="yellow-1">Guillaume M <span class="candidate-nickname">"L'Épicurien"</span></label>
+                        <div class="select-container">
+                            <select name="yellow" id="yellow-select" class="candidate-select">
+                                <option value="" disabled selected>Choisissez un candidat...</option>
+                                <option value="Ludo G">Ludo G</option>
+                                <option value="Clem E">Clem E</option>
+                                <option value="Guillaume M">Guillaume M</option>
+                                <option value="Alex B">Alex B</option>
+                                <option value="Charly T">Charly T</option>
+                                <option value="Pierre V">Pierre V</option>
+                                <option value="Romain M">Romain M</option>
+                                <option value="Morgan P">Morgan P</option>
+                                <option value="Guillaume A">Guillaume A</option>
+                                <option value="Olivier G">Olivier G</option>
+                                <option value="Manu">Manu</option>
+                                <option value="Aimé E">Aimé E</option>
+                                <option value="Michel G">Michel G</option>
+                                <option value="Patrick L">Patrick L</option>
+                                <option value="Autre">Autre...</option>
+                            </select>
+                            <div class="select-arrow"><i class="fas fa-chevron-down"></i></div>
                         </div>
-                        <div class="voting-option">
-                            <input type="radio" name="yellow" id="yellow-2" value="Yann L">
-                            <label for="yellow-2">Yann L <span class="candidate-nickname">"Le Breton Affamé"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="yellow" id="yellow-3" value="Ludovic G">
-                            <label for="yellow-3">Ludovic G <span class="candidate-nickname">"Le Gourmet"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="yellow" id="yellow-4" value="Thomas R">
-                            <label for="yellow-4">Thomas R <span class="candidate-nickname">"Le Bon Vivant"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="yellow" id="yellow-5" value="Autre">
-                            <label for="yellow-5">Autre</label>
-                            <input type="text" class="other-input" id="yellow-other" placeholder="Précisez...">
+                        <div class="other-input-container">
+                            <input type="text" class="other-input" id="yellow-other" placeholder="Précisez votre candidat..." style="display: none;">
                         </div>
                     </div>
                     <button class="vote-btn yellow-btn" data-type="yellow"><i class="fas fa-vote-yea"></i> Voter</button>
@@ -394,26 +420,18 @@
                         <p>Meilleur vieux (45+ ans)</p>
                     </div>
                     <div class="voting-options">
-                        <div class="voting-option">
-                            <input type="radio" name="white" id="white-1" value="Jean-Claude B">
-                            <label for="white-1">Jean-Claude B <span class="candidate-nickname">"Le Sage"</span></label>
+                        <div class="select-container">
+                            <select name="white" id="white-select" class="candidate-select">
+                                <option value="" disabled selected>Choisissez un candidat...</option>
+                                <option value="Aimé E">Aimé E</option>
+                                <option value="Michel G">Michel G</option>
+                                <option value="Patrick L">Patrick L</option>
+                                <option value="Autre">Autre...</option>
+                            </select>
+                            <div class="select-arrow"><i class="fas fa-chevron-down"></i></div>
                         </div>
-                        <div class="voting-option">
-                            <input type="radio" name="white" id="white-2" value="Bernard T">
-                            <label for="white-2">Bernard T <span class="candidate-nickname">"L'Inusable"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="white" id="white-3" value="Michel D">
-                            <label for="white-3">Michel D <span class="candidate-nickname">"Le Vétéran"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="white" id="white-4" value="Philippe G">
-                            <label for="white-4">Philippe G <span class="candidate-nickname">"Le Doyen"</span></label>
-                        </div>
-                        <div class="voting-option">
-                            <input type="radio" name="white" id="white-5" value="Autre">
-                            <label for="white-5">Autre</label>
-                            <input type="text" class="other-input" id="white-other" placeholder="Précisez...">
+                        <div class="other-input-container">
+                            <input type="text" class="other-input" id="white-other" placeholder="Précisez votre candidat..." style="display: none;">
                         </div>
                     </div>
                     <button class="vote-btn white-btn" data-type="white"><i class="fas fa-vote-yea"></i> Voter</button>
@@ -423,6 +441,34 @@
                     </div>
                 </div>
             </div>
+
+            <div class="podium-container">
+                <h3 class="podium-title"><i class="fas fa-trophy"></i> Podium des Champions</h3>
+                <div class="podium-stage">
+                    <div class="podium-place" id="podium-second">
+                        <div class="podium-avatar" id="second-avatar"></div>
+                        <div class="podium-name" id="second-name">2ème</div>
+                        <div class="podium-block">2</div>
+                    </div>
+                    <div class="podium-place" id="podium-first">
+                        <div class="podium-avatar" id="first-avatar"></div>
+                        <div class="podium-name" id="first-name">1er</div>
+                        <div class="podium-block">1</div>
+                    </div>
+                    <div class="podium-place" id="podium-third">
+                        <div class="podium-avatar" id="third-avatar"></div>
+                        <div class="podium-name" id="third-name">3ème</div>
+                        <div class="podium-block">3</div>
+                    </div>
+                </div>
+                <div class="podium-confetti" id="podium-confetti"></div>
+            </div>
+
+            <div class="voting-controls">
+                <button class="show-results-btn" id="show-results-btn"><i class="fas fa-chart-bar"></i> Voir les résultats</button>
+                <button class="show-podium-btn" id="show-podium-btn"><i class="fas fa-trophy"></i> Afficher le podium</button>
+            </div>
+        </div>
 
             <div class="voting-footer">
                 <p><i class="fas fa-medal"></i> Les résultats seront officiellement annoncés lors de la remise des maillots chez Gueuleton !</p>
@@ -501,6 +547,9 @@
             <div class="credits">
                 <p>Site créé par Orchestra Intelligence, mail: <a href="mailto:sales@orchestraintelligence.fr"><i class="fas fa-envelope"></i>sales@orchestraintelligence.fr</a></p>
             </div>
+            <div class="admin-controls">
+                <button id="reset-votes-btn" class="reset-votes-btn" title="Réinitialiser tous les votes"><i class="fas fa-trash-alt"></i> Réinitialiser les votes</button>
+            </div>
         </div>
     </footer>
 
@@ -508,5 +557,7 @@
     <script src="js/avatars.js"></script>
     <script src="js/weather.js"></script> <!-- Ajout du script météo -->
     <script src="js/votes.js"></script> <!-- Ajout du script de votes -->
+    <script src="js/podium.js"></script> <!-- Ajout du script pour le podium -->
+    <script src="js/menu.js"></script> <!-- Ajout du script pour le menu interactif -->
 </body>
 </html>

@@ -27,6 +27,51 @@
         font-size: 1rem; /* Taille punchline légèrement réduite */
     }
 
+    /* Styles responsives pour le menu */
+    .menu-container {
+        padding: 0 5px;
+    }
+
+    .menu-items {
+        padding: 5px 0;
+        justify-content: space-around; /* Distribuer l'espace également */
+    }
+
+    .menu-item {
+        margin: 0 1px; /* Marge minimale */
+        flex: 0 0 auto; /* Ne pas permettre aux éléments de s'étirer */
+    }
+
+    .menu-item a {
+        font-size: 0.7rem;
+        padding: 8px 8px; /* Réduire davantage le padding */
+        min-width: 0; /* Permettre aux éléments de rétrécir autant que nécessaire */
+    }
+
+    .menu-item a i {
+        margin-right: 0; /* Supprimer la marge à droite des icônes */
+        font-size: 0.9rem;
+    }
+
+    .menu-item a span {
+        display: none; /* Cacher le texte sur mobile, ne montrer que les icônes */
+    }
+
+    /* Afficher le texte pour l'élément actif ou au survol */
+    .menu-item a:hover span,
+    .menu-item a.active span {
+        display: none; /* Ne pas afficher le texte même au survol sur les très petits écrans */
+    }
+
+    /* Afficher le texte uniquement sur les écrans moyens */
+    @media (min-width: 480px) {
+        .menu-item a:hover span,
+        .menu-item a.active span {
+            display: inline-block;
+            margin-left: 5px;
+        }
+    }
+
     .enter-btn {
         padding: 10px 25px; /* Bouton légèrement plus petit */
         font-size: 0.9rem;

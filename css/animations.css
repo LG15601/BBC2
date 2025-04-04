@@ -124,16 +124,207 @@ a, button, .challenge-card, .prono-card, .gallery-item, .gpx-download-link,
         animation: float 5s ease-in-out infinite;
         animation-duration: 3s; /* Plus rapide sur mobile */
     }
-    
+
     .enter-btn {
         animation: pulse 3s infinite; /* Plus lent sur mobile */
     }
-    
+
     .challenge-card:hover, .prono-card:hover, .gallery-item:hover {
         transform: scale(1.02); /* Effet réduit sur mobile */
     }
-    
+
     .avatar-card:hover {
         transform: translateY(-3px); /* Effet réduit sur mobile */
     }
+}
+
+/* Animations pour le système de vote interactif */
+
+/* Animation pour les onglets */
+@keyframes tab-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.tab-btn:hover .tab-maillot {
+    animation: tab-bounce 0.5s ease;
+}
+
+/* Animation pour les options de vote */
+@keyframes vote-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.voting-option:active {
+    animation: vote-pulse 0.3s ease;
+}
+
+/* Animation pour le podium */
+@keyframes podium-rise {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: var(--podium-height);
+    }
+}
+
+@keyframes winner-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes confetti-drop {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* Animation pour la rotation des maillots */
+@keyframes jersey-spin {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.maillot.winner {
+    animation: jersey-spin 1.5s ease-in-out;
+}
+
+/* Animation pour le bouton de vote */
+@keyframes vote-success {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.vote-btn.voted {
+    animation: vote-success 0.5s ease;
+}
+
+/* Animation pour l'apparition du podium */
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.podium-container.show {
+    display: block;
+    animation: fade-in 0.8s ease forwards;
+}
+
+/* Styles pour les confettis */
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffd700;
+    border-radius: 2px;
+    top: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Animation pour la célébration du podium */
+@keyframes celebrate {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.podium-stage.celebrating .podium-place {
+    animation: celebrate 1s ease infinite;
+}
+
+#podium-first.celebrating {
+    animation-delay: 0s;
+}
+
+#podium-second.celebrating {
+    animation-delay: 0.2s;
+}
+
+#podium-third.celebrating {
+    animation-delay: 0.4s;
+}
+
+/* Animation pour le maillot flottant */
+.floating-jersey {
+    animation: float 3s ease-in-out infinite !important;
+}
+
+/* Animation pour le bouton de bascule du système de vote */
+@keyframes pulse-vote {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 119, 200, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(0, 119, 200, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 119, 200, 0);
+    }
+}
+
+.vote-toggle-btn {
+    animation: pulse-vote 2s infinite;
+}
+
+/* Animation pour l'ouverture/fermeture du système de vote */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.voting-app-container.show {
+    animation: slide-down 0.5s ease forwards;
 }

@@ -1,0 +1,332 @@
+/* === DESIGN PREMIUM POUR LA MÉTÉO === */
+:root {
+  /* Palette de couleurs */
+  --weather-primary: #0077b6;
+  --weather-secondary: #00b4d8;
+  --weather-accent: #90e0ef;
+  --weather-light: #caf0f8;
+  --weather-dark: #03045e;
+  --weather-success: #52b788;
+  --weather-warning: #ffb703;
+  --weather-danger: #e63946;
+  
+  /* Couleurs spécifiques pour les conditions météo */
+  --sunny-color: #ffb703;
+  --cloudy-color: #8ecae6;
+  --rainy-color: #219ebc;
+  --snowy-color: #e9ecef;
+  --stormy-color: #023047;
+  --foggy-color: #adb5bd;
+  
+  /* Effets et ombres */
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --card-hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  --card-border-radius: 24px;
+  --inner-border-radius: 16px;
+  
+  /* Animations */
+  --transition-speed: 0.4s;
+}
+
+/* Section météo principale */
+#meteo {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effet de fond avec des nuages subtils */
+#meteo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 28" width="56" height="28"><path fill="%23f8f9fa" d="M56 26v2h-7.75c2.3-1.27 4.94-2 7.75-2zm-26 2a2 2 0 1 0-4 0h-4.09A25.98 25.98 0 0 0 0 16v-2c.67 0 1.34.02 2 .07V14a2 2 0 0 0-2-2v-2a4 4 0 0 1 3.98 3.6 28.09 28.09 0 0 1 2.8-3.86A8 8 0 0 0 0 6V4a9.99 9.99 0 0 1 8.17 4.23c.94-.95 1.96-1.83 3.03-2.63A13.98 13.98 0 0 0 0 0h7.75c2 1.1 3.73 2.63 5.1 4.45 1.12-.72 2.3-1.37 3.53-1.93A20.1 20.1 0 0 0 14.28 0h2.7c.45.56.88 1.14 1.29 1.74 1.3-.48 2.63-.87 4-1.15-.11-.2-.23-.4-.36-.59H26v.07a28.4 28.4 0 0 1 4 0V0h4.09l-.37.59c1.38.28 2.72.67 4.01 1.15.4-.6.84-1.18 1.3-1.74h2.69a20.1 20.1 0 0 0-2.1 2.52c1.23.56 2.41 1.2 3.54 1.93A16.08 16.08 0 0 1 48.25 0H56c-4.58 0-8.65 2.2-11.2 5.6 1.07.8 2.09 1.68 3.03 2.63A9.99 9.99 0 0 1 56 4v2a8 8 0 0 0-6.77 3.74c1.03 1.2 1.97 2.5 2.79 3.86A4 4 0 0 1 56 10v2a2 2 0 0 0-2 2.07 28.4 28.4 0 0 1 2-.07v2c-9.2 0-17.3 4.78-21.91 12H30zM7.75 28H0v-2c2.81 0 5.46.73 7.75 2zM56 20v2c-5.6 0-10.65 2.3-14.28 6h-2.7c4.04-4.89 10.15-8 16.98-8zm-39.03 8h-2.69C10.65 24.3 5.6 22 0 22v-2c6.83 0 12.94 3.11 16.97 8zm15.01-.4a28.09 28.09 0 0 1 2.8-3.86 8 8 0 0 0-13.55 0c1.03 1.2 1.97 2.5 2.79 3.86a4 4 0 0 1 7.96 0zm14.29-11.86c1.3-.48 2.63-.87 4-1.15a25.99 25.99 0 0 0-44.55 0c1.38.28 2.72.67 4.01 1.15a21.98 21.98 0 0 1 36.54 0z"></path></svg>') repeat;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Titre et sous-titre */
+#meteo .section-title {
+  position: relative;
+  z-index: 1;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, var(--weather-dark), var(--weather-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  text-align: center;
+}
+
+#meteo .section-subtitle {
+  position: relative;
+  z-index: 1;
+  color: #555;
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+/* Conteneur des cartes météo */
+.weather-widget-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding: 0 20px;
+}
+
+/* Carte météo individuelle */
+.weather-card {
+  background: white;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: all var(--transition-speed) ease;
+  flex: 1 1 300px;
+  max-width: 350px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* En-tête de la carte avec dégradé */
+.weather-card-header {
+  background: linear-gradient(135deg, var(--weather-primary), var(--weather-secondary));
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.weather-card-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Contenu principal de la carte */
+.weather-card-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+/* Icône météo avec animation */
+.weather-icon {
+  font-size: 5rem;
+  margin: 10px 0 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+}
+
+.weather-emoji {
+  font-size: 5rem;
+  line-height: 1;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+  animation: float 3s infinite ease-in-out;
+}
+
+/* Animation de flottement */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Informations météo */
+.weather-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.weather-temp {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-align: center;
+  color: var(--weather-dark);
+}
+
+.weather-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 5px 0 15px;
+  text-align: center;
+}
+
+/* Détails météo */
+.weather-details {
+  background: #f8f9fa;
+  border-radius: var(--inner-border-radius);
+  padding: 15px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.weather-detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.weather-detail-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.weather-detail-icon {
+  width: 30px;
+  color: var(--weather-primary);
+  margin-right: 10px;
+  text-align: center;
+}
+
+.weather-detail-text {
+  flex-grow: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* États de chargement et d'erreur */
+.weather-card.loading {
+  min-height: 400px;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-card.loading::after {
+  content: '';
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--weather-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.weather-card.error {
+  min-height: 400px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(230, 57, 70, 0.05);
+}
+
+.weather-card.error::after {
+  content: '⚠️';
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* Styles spécifiques pour différentes conditions météo */
+.weather-card.sunny .weather-card-header {
+  background: linear-gradient(135deg, #ff9500, #ffcc00);
+}
+
+.weather-card.cloudy .weather-card-header {
+  background: linear-gradient(135deg, #8ecae6, #219ebc);
+}
+
+.weather-card.rainy .weather-card-header {
+  background: linear-gradient(135deg, #219ebc, #023047);
+}
+
+.weather-card.snowy .weather-card-header {
+  background: linear-gradient(135deg, #a8dadc, #457b9d);
+}
+
+.weather-card.stormy .weather-card-header {
+  background: linear-gradient(135deg, #023047, #001219);
+}
+
+.weather-card.foggy .weather-card-header {
+  background: linear-gradient(135deg, #adb5bd, #6c757d);
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .weather-widget-container {
+    gap: 20px;
+  }
+  
+  .weather-card {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 768px) {
+  #meteo {
+    padding: 40px 0;
+  }
+  
+  #meteo .section-title {
+    font-size: 2rem;
+  }
+  
+  .weather-widget-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .weather-card {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  #meteo .section-title {
+    font-size: 1.8rem;
+  }
+  
+  #meteo .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .weather-card-header {
+    padding: 15px;
+  }
+  
+  .weather-card-body {
+    padding: 20px 15px;
+  }
+  
+  .weather-emoji {
+    font-size: 4rem;
+  }
+  
+  .weather-temp {
+    font-size: 2rem;
+  }
+}

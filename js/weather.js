@@ -12,47 +12,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Fonctions Utilitaires ---
 
-    // Traduction WMO Code -> Emoji & Description
+    // Traduction WMO Code -> Emoji, Description et Classe CSS
     function getWeatherInfo(wmoCode) {
         const info = {
             emoji: "❓", // Emoji par défaut
             cssClass: "question", // Classe CSS pour le style
-            description: "Inconnu"
+            description: "Inconnu",
+            cardClass: "" // Classe pour la carte entière
         };
         if (wmoCode === 0) {
             info.emoji = "☀️";
             info.cssClass = "sun";
             info.description = "Ensoleillé";
+            info.cardClass = "sunny";
         }
         else if (wmoCode >= 1 && wmoCode <= 3) {
             info.emoji = "🌤️";
             info.cssClass = "cloud-sun";
             info.description = "Partiellement nuageux";
+            info.cardClass = "cloudy";
         }
         else if (wmoCode === 45 || wmoCode === 48) {
             info.emoji = "🌫️";
             info.cssClass = "smog";
             info.description = "Brouillard";
+            info.cardClass = "foggy";
         }
         else if ((wmoCode >= 51 && wmoCode <= 57) || (wmoCode >= 61 && wmoCode <= 67) || (wmoCode >= 80 && wmoCode <= 82)) {
             info.emoji = "🌧️";
             info.cssClass = "cloud-showers-heavy";
             info.description = "Pluie/Averses";
+            info.cardClass = "rainy";
         }
         else if (wmoCode >= 71 && wmoCode <= 77) {
             info.emoji = "❄️";
             info.cssClass = "snowflake";
             info.description = "Neige";
+            info.cardClass = "snowy";
         }
         else if (wmoCode >= 95 && wmoCode <= 99) {
             info.emoji = "⚡";
             info.cssClass = "bolt";
             info.description = "Orage";
+            info.cardClass = "stormy";
         }
         else if (wmoCode >= 58 && wmoCode <= 60) {
             info.emoji = "🌦️";
             info.cssClass = "cloud-rain";
             info.description = "Bruine";
+            info.cardClass = "rainy";
         }
         // Ajouter d'autres codes si nécessaire
         return info;
@@ -72,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const card = document.createElement('div');
         card.className = 'weather-card loading'; // Ajout classe loading
-        card.innerHTML = `<h3>${location.name}</h3><p>Chargement...</p>`;
         weatherContainer.appendChild(card);
 
         try {
@@ -120,19 +127,50 @@ document.addEventListener('DOMContentLoaded', function() {
             const avgWindDirectionDegrees = data.hourly.winddirection_10m[midIndex];
             const avgWindDirectionCardinal = getWindDirection(avgWindDirectionDegrees);
 
-
-            // Mettre à jour la carte
+            // Mettre à jour la carte avec le nouveau design
             card.classList.remove('loading');
-            // Utiliser l'emoji au lieu de l'icône Font Awesome
+            if (weatherInfo.cardClass) {
+                card.classList.add(weatherInfo.cardClass);
+            }
+
             card.innerHTML = `
-                <h3>${location.name}</h3>
-                <div class="weather-icon ${weatherInfo.cssClass}">
-                    <span class="weather-emoji">${weatherInfo.emoji}</span>
+                <div class="weather-card-header">
+                    <h3>${location.name}</h3>
                 </div>
-                <div class="weather-details">
-                    <p><strong>Temp (9h-13h):</strong> ${avgTemp.toFixed(1)}°C</p>
-                    <p><strong>Météo:</strong> ${weatherInfo.description}</p>
-                    <p><strong>Vent:</strong> ${avgWindSpeed.toFixed(0)} km/h (raf. ${maxGust.toFixed(0)} km/h) ${avgWindDirectionCardinal} 💨</p>
+                <div class="weather-card-body">
+                    <div class="weather-icon ${weatherInfo.cssClass}">
+                        <span class="weather-emoji">${weatherInfo.emoji}</span>
+                    </div>
+                    <div class="weather-info">
+                        <p class="weather-temp">${avgTemp.toFixed(1)}°C</p>
+                        <p class="weather-description">${weatherInfo.description}</p>
+                    </div>
+                    <div class="weather-details">
+                        <div class="weather-detail-item">
+                            <div class="weather-detail-icon">
+                                <i class="fas fa-wind"></i>
+                            </div>
+                            <div class="weather-detail-text">
+                                Vent: ${avgWindSpeed.toFixed(0)} km/h (${avgWindDirectionCardinal})
+                            </div>
+                        </div>
+                        <div class="weather-detail-item">
+                            <div class="weather-detail-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="weather-detail-text">
+                                Rafales: ${maxGust.toFixed(0)} km/h
+                            </div>
+                        </div>
+                        <div class="weather-detail-item">
+                            <div class="weather-detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="weather-detail-text">
+                                Prévision: 9h-13h
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `;
 
@@ -140,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error(`Erreur météo pour ${location.name}:`, error);
             card.classList.remove('loading');
             card.classList.add('error'); // Ajout classe error
-            card.innerHTML = `<h3>${location.name}</h3><p>Erreur de chargement des données.</p>`;
+            card.innerHTML = `<div class="weather-card-header"><h3>${location.name}</h3></div><div class="weather-card-body"><p>Erreur de chargement des données.</p></div>`;
         }
     }
 

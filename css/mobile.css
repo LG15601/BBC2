@@ -38,20 +38,32 @@
         display: block !important;
     }
 
-    /* Transformer le menu en menu plein écran */
-    .menu-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: var(--dark-color);
-        padding: 80px 20px 20px;
-        z-index: 1000;
-        overflow-y: auto;
-        display: none; /* Caché par défaut sur mobile */
-        flex-direction: column;
-        justify-content: center;
+    /* Menu mobile ultra-simple */
+    @media (max-width: 767px) {
+        .menu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--dark-color);
+            padding: 80px 20px 20px;
+            z-index: 1000;
+            overflow-y: auto;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    /* Styles pour desktop */
+    @media (min-width: 768px) {
+        .menu-container {
+            display: flex !important;
+        }
+
+        #menuButton {
+            display: none !important;
+        }
     }
 
     /* Transformer le hamburger en X quand le menu est ouvert */

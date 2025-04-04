@@ -36,7 +36,18 @@
 
     <nav class="main-nav">
         <div class="container">
-            <div class="menu-container">
+            <!-- Logo pour la navigation mobile -->
+            <div class="nav-logo">
+                <span>La Gueuleton Express</span>
+            </div>
+
+            <!-- Bouton hamburger pour mobile -->
+            <button class="mobile-menu-toggle" aria-label="Menu" onclick="toggleMobileMenu()">
+                <span class="hamburger-icon"></span>
+            </button>
+
+            <!-- Menu principal -->
+            <div class="menu-container" id="mobileMenu">
                 <ul class="menu-items">
                     <li class="menu-item"><a href="#parcours"><i class="fas fa-route"></i><span>PARCOURS</span></a></li>
                     <li class="menu-item"><a href="#defis"><i class="fas fa-trophy"></i><span>LES DÉFIS</span></a></li>
@@ -480,7 +491,7 @@
             <div class="rules-container">
                 <h3><i class="fas fa-trophy"></i> Règles de La Gueuleton Express</h3>
                 <p>Cette course n'est pas une compétition officielle, mais un événement entre amis organisé par le BBC (Bicyclette Buvette Club). Ici, on pédale avec le sourire et on trinque avec passion !</p>
-                <p><strong>Point de rendez-vous :</strong> 9h - 114 avenue de Lavaur, 81100 Castres</p>
+                <p><strong>Point de rendez-vous :</strong> Boulangerie L'Emile Pains, rond point de Lameihé, 81100 Castres à 9h</p>
 
                 <ul>
                     <li><strong>Règle n°1 :</strong> S'amuser est obligatoire. Toute mine déconfite sera sanctionnée d'une tournée générale. Même Poulidor souriait plus que ça !</li>
@@ -559,5 +570,30 @@
     <script src="js/votes.js"></script> <!-- Ajout du script de votes -->
     <script src="js/podium.js"></script> <!-- Ajout du script pour le podium -->
     <script src="js/menu.js"></script> <!-- Ajout du script pour le menu interactif -->
+
+    <!-- Script simple pour le menu mobile -->
+    <script>
+        function toggleMobileMenu() {
+            var menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+
+            var button = document.querySelector('.mobile-menu-toggle');
+            button.classList.toggle('active');
+
+            document.body.classList.toggle('menu-open');
+        }
+
+        // Fermer le menu quand on clique sur un lien
+        document.addEventListener('DOMContentLoaded', function() {
+            var menuLinks = document.querySelectorAll('.menu-items a');
+            menuLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

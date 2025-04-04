@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { name: "Charly T", profil: "Epicurien", punchline: "Roule au chouchen, attaque au caramel au beurre salé. Mollement." },
         { name: "Michel G", profil: "Vieux Briscard", punchline: "La dernière fois qu'il est monté sur un vélo, Festina était encore une équipe sérieuse." },
         { name: "Pierre V", profil: "Vieux Briscard", punchline: "Son KOM le plus impressionnant ? Celui de la falaise du coin, sans vélo." },
-        { name: "Younes Y", profil: "Epicurien", punchline: "L'ex-artiste du foot amateur qui dribblait les tacles dans les prés du Cantal." },
+        // Participant retiré
         { name: "Romain M", profil: "Epicurien", punchline: "en forme il pourrait faire l’ascenseur dans un col… mais en forme !" },
         { name: "Morgan P", profil: "Baroudeur", punchline: "les gains marginaux pour faire décoller les avions et un vélo de collection !" },
         { name: "Guillaume A", profil: "Grimpeur", punchline: "toujours le vélo dans coffre et parfois les jambes dans le sac (du Forza Viola)" },

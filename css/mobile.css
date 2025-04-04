@@ -27,48 +27,92 @@
         font-size: 1rem; /* Taille punchline légèrement réduite */
     }
 
-    /* Styles responsives pour le menu */
+    /* Styles responsives pour le menu - Version améliorée */
+    .main-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        z-index: 1000;
+        padding: 5px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: none;
+    }
+
     .menu-container {
-        padding: 0 5px;
+        padding: 0;
+        width: 100%;
+        overflow-x: auto;
     }
 
     .menu-items {
+        display: flex;
+        justify-content: space-between;
         padding: 5px 0;
-        justify-content: space-around; /* Distribuer l'espace également */
+        width: 100%;
     }
 
     .menu-item {
-        margin: 0 1px; /* Marge minimale */
-        flex: 0 0 auto; /* Ne pas permettre aux éléments de s'étirer */
+        flex: 1;
+        margin: 0;
+        text-align: center;
     }
 
     .menu-item a {
         font-size: 0.7rem;
-        padding: 8px 8px; /* Réduire davantage le padding */
-        min-width: 0; /* Permettre aux éléments de rétrécir autant que nécessaire */
+        padding: 8px 5px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
     }
 
     .menu-item a i {
-        margin-right: 0; /* Supprimer la marge à droite des icônes */
-        font-size: 0.9rem;
+        margin-right: 0;
+        margin-bottom: 3px;
+        font-size: 1.2rem;
     }
 
     .menu-item a span {
-        display: none; /* Cacher le texte sur mobile, ne montrer que les icônes */
+        display: block;
+        font-size: 0.6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
-    /* Afficher le texte pour l'élément actif ou au survol */
-    .menu-item a:hover span,
-    .menu-item a.active span {
-        display: none; /* Ne pas afficher le texte même au survol sur les très petits écrans */
+    /* Ajouter un espace en bas du contenu pour éviter que le menu fixe ne cache du contenu */
+    body {
+        padding-bottom: 70px;
     }
 
-    /* Afficher le texte uniquement sur les écrans moyens */
+    /* Ajuster la taille des icônes pour qu'elles soient plus visibles */
+    .menu-item:nth-child(n+6) {
+        display: none; /* Cacher les éléments après le 5ème sur les très petits écrans */
+    }
+
+    /* Afficher plus d'éléments sur les écrans moyens */
+    @media (min-width: 375px) {
+        .menu-item:nth-child(6) {
+            display: block;
+        }
+    }
+
     @media (min-width: 480px) {
-        .menu-item a:hover span,
-        .menu-item a.active span {
-            display: inline-block;
-            margin-left: 5px;
+        .menu-item:nth-child(n+6) {
+            display: block;
+        }
+
+        .menu-item a {
+            padding: 8px;
+        }
+
+        .menu-item a span {
+            font-size: 0.7rem;
         }
     }
 

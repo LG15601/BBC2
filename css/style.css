@@ -131,7 +131,62 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  padding: 5px 0;
+  padding: 10px 0;
+}
+
+.main-nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.nav-logo {
+  display: none; /* Caché sur desktop, visible sur mobile */
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+.mobile-menu-toggle {
+  display: none; /* Caché sur desktop, visible sur mobile */
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1010;
+}
+
+.hamburger-icon,
+.hamburger-icon::before,
+.hamburger-icon::after {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
+}
+
+.hamburger-icon::before,
+.hamburger-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.hamburger-icon::before {
+  top: -8px;
+}
+
+.hamburger-icon::after {
+  top: 8px;
 }
 
 .menu-container {
@@ -148,7 +203,7 @@ body {
 
 .menu-items {
   display: flex;
-  justify-content: space-between; /* Distribuer l'espace également */
+  justify-content: center; /* Centrer les éléments */
   list-style: none;
   padding: 10px 0;
   margin: 0;

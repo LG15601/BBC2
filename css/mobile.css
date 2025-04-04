@@ -27,92 +27,169 @@
         font-size: 1rem; /* Taille punchline légèrement réduite */
     }
 
-    /* Styles responsives pour le menu - Version améliorée */
-    .main-nav {
+    /* Styles responsives pour le menu - Version moderne */
+    /* Afficher le logo et le bouton hamburger sur mobile */
+    .nav-logo {
+        display: block;
+        padding: 0 15px;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    /* Transformer le menu en menu plein écran */
+    .menu-container {
         position: fixed;
-        bottom: 0;
+        top: 0;
         left: 0;
         right: 0;
-        top: auto;
+        bottom: 0;
+        background-color: var(--dark-color);
+        padding: 80px 20px 20px;
         z-index: 1000;
-        padding: 5px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        border-bottom: none;
-    }
-
-    .menu-container {
-        padding: 0;
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .menu-items {
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+        overflow-y: auto;
         display: flex;
-        justify-content: space-between;
-        padding: 5px 0;
-        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Classe pour afficher le menu quand il est actif */
+    .menu-container.active {
+        transform: translateX(0);
+    }
+
+    /* Transformer le hamburger en X quand le menu est ouvert */
+    .mobile-menu-toggle.active .hamburger-icon {
+        background-color: transparent;
+    }
+
+    .mobile-menu-toggle.active .hamburger-icon::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+
+    .mobile-menu-toggle.active .hamburger-icon::after {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+
+    /* Styles pour les éléments du menu */
+    .menu-items {
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
     }
 
     .menu-item {
-        flex: 1;
-        margin: 0;
-        text-align: center;
+        width: 100%;
+        margin: 8px 0;
     }
 
     .menu-item a {
-        font-size: 0.7rem;
-        padding: 8px 5px;
+        font-size: 1.1rem;
+        padding: 15px;
         border-radius: 10px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        height: 50px;
+        justify-content: flex-start;
+        background-color: rgba(255, 255, 255, 0.08);
+        transition: all 0.2s ease;
+    }
+
+    .menu-item a:hover, .menu-item a.active {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
     }
 
     .menu-item a i {
-        margin-right: 0;
-        margin-bottom: 3px;
-        font-size: 1.2rem;
+        margin-right: 15px;
+        font-size: 1.3rem;
+        width: 25px;
+        text-align: center;
     }
 
     .menu-item a span {
         display: block;
-        font-size: 0.6rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
+        font-size: 1rem;
+        font-weight: 600;
     }
 
-    /* Ajouter un espace en bas du contenu pour éviter que le menu fixe ne cache du contenu */
-    body {
-        padding-bottom: 70px;
+    /* Animation d'entrée pour les éléments du menu */
+    .menu-container.active .menu-item {
+        animation: slideIn 0.3s forwards;
+        opacity: 0;
+        transform: translateX(20px);
     }
 
-    /* Ajuster la taille des icônes pour qu'elles soient plus visibles */
-    .menu-item:nth-child(n+6) {
-        display: none; /* Cacher les éléments après le 5ème sur les très petits écrans */
-    }
-
-    /* Afficher plus d'éléments sur les écrans moyens */
-    @media (min-width: 375px) {
-        .menu-item:nth-child(6) {
-            display: block;
+    @keyframes slideIn {
+        to {
+            opacity: 1;
+            transform: translateX(0);
         }
     }
 
-    @media (min-width: 480px) {
-        .menu-item:nth-child(n+6) {
-            display: block;
+    /* Ajouter un délai pour chaque élément du menu */
+    .menu-container.active .menu-item:nth-child(1) { animation-delay: 0.1s; }
+    .menu-container.active .menu-item:nth-child(2) { animation-delay: 0.15s; }
+    .menu-container.active .menu-item:nth-child(3) { animation-delay: 0.2s; }
+    .menu-container.active .menu-item:nth-child(4) { animation-delay: 0.25s; }
+    .menu-container.active .menu-item:nth-child(5) { animation-delay: 0.3s; }
+    .menu-container.active .menu-item:nth-child(6) { animation-delay: 0.35s; }
+    .menu-container.active .menu-item:nth-child(7) { animation-delay: 0.4s; }
+    .menu-container.active .menu-item:nth-child(8) { animation-delay: 0.45s; }
+    .menu-container.active .menu-item:nth-child(9) { animation-delay: 0.5s; }
+
+    /* Styles pour les écrans moyens */
+    @media (min-width: 768px) {
+        .nav-logo, .mobile-menu-toggle {
+            display: none;
+        }
+
+        .menu-container {
+            position: static;
+            transform: none;
+            padding: 0 10px;
+            background-color: transparent;
+            flex-direction: row;
+            overflow-x: auto;
+        }
+
+        .menu-items {
+            flex-direction: row;
+            justify-content: center;
+            padding: 10px 0;
+        }
+
+        .menu-item {
+            width: auto;
+            margin: 0 3px;
         }
 
         .menu-item a {
-            padding: 8px;
+            font-size: 0.9rem;
+            padding: 10px 15px;
+            flex-direction: row;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .menu-item a i {
+            margin-right: 8px;
+            font-size: 1rem;
+            width: auto;
         }
 
         .menu-item a span {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
+        }
+
+        .menu-container .menu-item {
+            animation: none;
+            opacity: 1;
+            transform: none;
         }
     }
 

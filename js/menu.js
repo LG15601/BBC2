@@ -1,5 +1,33 @@
 // Script pour gérer le menu interactif
 document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner les éléments du menu
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const menuContainer = document.querySelector('.menu-container');
+    const menuItems = document.querySelectorAll('.menu-item a');
+
+    // Fonction pour basculer le menu mobile
+    function toggleMobileMenu() {
+        mobileMenuToggle.classList.toggle('active');
+        menuContainer.classList.toggle('active');
+
+        // Empêcher le défilement du body quand le menu est ouvert
+        document.body.classList.toggle('menu-open');
+    }
+
+    // Ajouter un écouteur d'événement au bouton hamburger
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    // Fermer le menu quand on clique sur un lien
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth < 768 && menuContainer.classList.contains('active')) {
+                toggleMobileMenu();
+            }
+        });
+    });
+
     // Fonction pour mettre à jour l'élément actif du menu lors du défilement
     function updateActiveMenuItem() {
         // Obtenir la position de défilement actuelle
@@ -25,21 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (activeMenuItem) {
                     activeMenuItem.classList.add('active');
 
-                    // S'assurer que l'élément actif est visible dans le menu déroulant
-                    // en le faisant défiler dans la vue si nécessaire
-                    const menuContainer = document.querySelector('.menu-container');
-                    if (menuContainer) {
-                        const menuItemRect = activeMenuItem.getBoundingClientRect();
-                        const containerRect = menuContainer.getBoundingClientRect();
+                    // S'assurer que l'élément actif est visible dans le menu déroulant sur desktop
+                    if (window.innerWidth >= 768) {
+                        const menuContainer = document.querySelector('.menu-container');
+                        if (menuContainer) {
+                            const menuItemRect = activeMenuItem.getBoundingClientRect();
+                            const containerRect = menuContainer.getBoundingClientRect();
 
-                        // Vérifier si l'élément est partiellement hors de la vue
-                        if (menuItemRect.left < containerRect.left || menuItemRect.right > containerRect.right) {
-                            // Calculer la position de défilement pour centrer l'élément
-                            const scrollLeft = menuItemRect.left - containerRect.left -
-                                              (containerRect.width / 2) + (menuItemRect.width / 2);
+                            // Vérifier si l'élément est partiellement hors de la vue
+                            if (menuItemRect.left < containerRect.left || menuItemRect.right > containerRect.right) {
+                                // Calculer la position de défilement pour centrer l'élément
+                                const scrollLeft = menuItemRect.left - containerRect.left -
+                                                  (containerRect.width / 2) + (menuItemRect.width / 2);
 
-                            // Faire défiler le conteneur
-                            menuContainer.scrollLeft += scrollLeft;
+                                // Faire défiler le conteneur
+                                menuContainer.scrollLeft += scrollLeft;
+                            }
                         }
                     }
                 }
@@ -75,4 +104,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Gérer le redimensionnement de la fenêtre
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            // Réinitialiser les classes sur desktop
+            if (mobileMenuToggle.classList.contains('active')) {
+                mobileMenuToggle.classList.remove('active');
+                menuContainer.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        }
+    });
+
+    // Ajouter une classe au body pour empêcher le défilement quand le menu est ouvert
+    const style = document.createElement('style');
+    style.textContent = `
+        body.menu-open {
+            overflow: hidden;
+        }
+    `;
+    document.head.appendChild(style);
 });

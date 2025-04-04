@@ -42,7 +42,7 @@
             </div>
 
             <!-- Bouton hamburger pour mobile -->
-            <button class="mobile-menu-toggle" aria-label="Menu" onclick="toggleMobileMenu()">
+            <button class="mobile-menu-toggle" aria-label="Menu">
                 <span class="hamburger-icon"></span>
             </button>
 
@@ -569,29 +569,58 @@
     <script src="js/weather.js"></script> <!-- Ajout du script météo -->
     <script src="js/votes.js"></script> <!-- Ajout du script de votes -->
     <script src="js/podium.js"></script> <!-- Ajout du script pour le podium -->
-    <script src="js/menu.js"></script> <!-- Ajout du script pour le menu interactif -->
 
     <!-- Script simple pour le menu mobile -->
     <script>
-        function toggleMobileMenu() {
-            var menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-
-            var button = document.querySelector('.mobile-menu-toggle');
-            button.classList.toggle('active');
-
-            document.body.classList.toggle('menu-open');
-        }
-
-        // Fermer le menu quand on clique sur un lien
         document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionner les éléments du menu
+            var mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            var menuContainer = document.getElementById('mobileMenu');
             var menuLinks = document.querySelectorAll('.menu-items a');
+
+            // Fonction pour basculer le menu mobile
+            function toggleMobileMenu() {
+                console.log('Toggle menu mobile');
+                if (menuContainer.style.display === 'block') {
+                    menuContainer.style.display = 'none';
+                    mobileMenuToggle.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                } else {
+                    menuContainer.style.display = 'block';
+                    mobileMenuToggle.classList.add('active');
+                    document.body.classList.add('menu-open');
+                }
+            }
+
+            // Initialiser l'état du menu
+            if (window.innerWidth < 768) {
+                menuContainer.style.display = 'none';
+            }
+
+            // Ajouter un écouteur d'événement au bouton hamburger
+            mobileMenuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleMobileMenu();
+            });
+
+            // Fermer le menu quand on clique sur un lien
             menuLinks.forEach(function(link) {
                 link.addEventListener('click', function() {
                     if (window.innerWidth < 768) {
                         toggleMobileMenu();
                     }
                 });
+            });
+
+            // Gérer le redimensionnement de la fenêtre
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) {
+                    menuContainer.style.display = '';
+                    mobileMenuToggle.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                } else if (window.innerWidth < 768 && !mobileMenuToggle.classList.contains('active')) {
+                    menuContainer.style.display = 'none';
+                }
             });
         });
     </script>

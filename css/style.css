@@ -160,6 +160,7 @@ body {
   cursor: pointer;
   position: relative;
   z-index: 1010;
+  outline: none;
 }
 
 .hamburger-icon,

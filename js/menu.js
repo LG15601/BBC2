@@ -5,13 +5,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuContainer = document.querySelector('.menu-container');
     const menuItems = document.querySelectorAll('.menu-item a');
 
+    console.log('Menu mobile initialisé:', {
+        mobileMenuToggle: mobileMenuToggle,
+        menuContainer: menuContainer,
+        menuItemsCount: menuItems.length
+    });
+
     // Fonction pour basculer le menu mobile
     function toggleMobileMenu() {
+        console.log('Toggle menu mobile');
         mobileMenuToggle.classList.toggle('active');
         menuContainer.classList.toggle('active');
 
         // Empêcher le défilement du body quand le menu est ouvert
         document.body.classList.toggle('menu-open');
+
+        console.log('Menu mobile toggled:', {
+            buttonActive: mobileMenuToggle.classList.contains('active'),
+            menuActive: menuContainer.classList.contains('active')
+        });
     }
 
     // Ajouter un écouteur d'événement au bouton hamburger

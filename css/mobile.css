@@ -30,12 +30,12 @@
     /* Styles responsives pour le menu - Version moderne */
     /* Afficher le logo et le bouton hamburger sur mobile */
     .nav-logo {
-        display: block;
+        display: block !important;
         padding: 0 15px;
     }
 
     .mobile-menu-toggle {
-        display: block;
+        display: block !important;
     }
 
     /* Transformer le menu en menu plein écran */
@@ -74,6 +74,14 @@
     .mobile-menu-toggle.active .hamburger-icon::after {
         transform: rotate(-45deg);
         top: 0;
+    }
+
+    /* S'assurer que l'icône hamburger est visible */
+    .hamburger-icon,
+    .hamburger-icon::before,
+    .hamburger-icon::after {
+        display: block !important;
+        background-color: white !important;
     }
 
     /* Styles pour les éléments du menu */
